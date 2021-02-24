@@ -1,0 +1,58 @@
+/*
+Copyright © 2021 Bren 'fraq' Briggs (code@fraq.io)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+package model
+
+import (
+	"time"
+
+	"github.com/satori/go.uuid"
+	"gorm.io/gorm"
+)
+
+type Order struct {
+	ID           uuid.UUID `gorm:"type:char(36);primary_key"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	DeletedAt    *time.Time `sql:"index"`
+	TimeReceived time.Time
+}
+
+// Maps Orders and Products
+type OrderMapping struct {
+	gorm.Model
+	OrderID   uuid.UUID
+	ProductID uint
+}
+
+// BeforeCreate will set a UUID rather than numeric ID.
+func (order *Order) BeforeCreate(tx *gorm.DB) error {
+	var err error
+	uuid := uuid.Must(uuid.NewV4(), err)
+
+	tx.Statement.SetColumn("ID", uuid)
+	return nil
+}
+
+type OrderRequest struct {
+	IDs []int
+}
