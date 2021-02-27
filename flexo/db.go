@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-package hermes
+package flexo
 
 import (
 	// stdlib
@@ -28,7 +28,7 @@ import (
 	"os"
 
 	// internal
-	"hermes/model"
+	"flexo/model"
 
 	// external
 	"gorm.io/driver/mysql"
@@ -43,7 +43,7 @@ func dbInit(user, pass, address, dbName string) error {
 		os.Exit(3)
 	}
 
-	return dbConnect(user, pass, address, dbName).AutoMigrate(&model.Product{}, &model.Order{}, &model.OrderMapping{})
+	return dbConnect(user, pass, address, dbName).AutoMigrate(&model.Team{}, &model.Category{}, &model.Target{})
 }
 
 func dbCreate(user, pass, address, dbName string) *gorm.DB {

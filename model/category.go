@@ -23,36 +23,10 @@ THE SOFTWARE.
 package model
 
 import (
-	"time"
-
-	"github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
-type Order struct {
-	ID           uuid.UUID `gorm:"type:char(36);primary_key"`
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
-	DeletedAt    *time.Time `sql:"index"`
-	TimeReceived time.Time
-}
-
-// Maps Orders and Products
-type OrderMapping struct {
+type Category struct {
 	gorm.Model
-	OrderID   uuid.UUID
-	ProductID uint
-}
-
-// BeforeCreate will set a UUID rather than numeric ID.
-func (order *Order) BeforeCreate(tx *gorm.DB) error {
-	var err error
-	uuid := uuid.Must(uuid.NewV4(), err)
-
-	tx.Statement.SetColumn("ID", uuid)
-	return nil
-}
-
-type OrderRequest struct {
-	IDs []int
+	Name string
 }
