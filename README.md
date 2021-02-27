@@ -10,6 +10,11 @@
 ### Start the server
 `go run ./main.go run --dbPass <password>`
 
+### Running with docker-compose
+`docker-compose up`
+
+DB password should be changed (in the docker-compose.yml file) before running this.
+
 ## Testing
 Hermes only has 3 routes:
 - GET /healthz
