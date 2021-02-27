@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  flexo:
+    build: .
+    ports:
+      - "127.0.0.1:8080:8080" # Change port?
+    environment:
+      DBADDR: "db:3306"
+      DBUSER: ${DB_USER:-flexo}
+      DBPASS: ${DB_PASS}
+      DBNAME: ${DB_NAME:-flexo}
+
+      GIN_MODE: release
+    depends_on:
+      - db
+
+  db: # Will be updated to a pg in issue #3
+    image: mysql:5.7.14
+    ports:
+      - "127.0.0.1:3306:3306"
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes" # will be printed to stdout
+      MYSQL_DATABASE: ${DB_NAME:-flexo}
+      MYSQL_USER: ${DB_USER:-flexo}
+      MYSQL_PASSWORD: ${DB_PASS}
