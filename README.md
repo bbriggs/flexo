@@ -10,6 +10,11 @@
 ### Start the server
 `go run ./main.go run --dbPass <password>`
 
+### Running with docker-compose
+`DB_NAME=flexo DB_USER=flexo DB_PASS=flexo docker-compose up`
+
+> `DB_NAME` and `DB_USER` default to `flexo`
+
 ## Testing
 Hermes only has 3 routes:
 - GET /healthz
