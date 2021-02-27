@@ -20,15 +20,20 @@ services:
     links:
       - db
 
-  db: #TODO The data is entirely in the container, we need to use an external volume.
-    # See PGDATA env var
+  db:
     image: postgres:13.2
+    volumes:
+      - db-data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${DB_NAME:-flexo}
       POSTGRES_USER: ${DB_USER:-flexo}
       POSTGRES_PASSWORD: ${DB_PASS}
+      PGDATA: /var/lib/postgresql/data/pgdata
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U flexo"] # TODO get user fomr $POSTGRES_USER
       interval: 5s
       timeout: 5s
       retries: 5
+
+volumes:
+  db-data:
