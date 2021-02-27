@@ -3,7 +3,7 @@
 ## Quickstart
 
 ### Prepare the Database
-1. Start a database: `docker run -d --name hermes-db -it -e MYSQL_ROOT_PASSWORD=<password> -p 127.0.0.1:3306:3306 mysql:5.7.14`
+1. Start a database: `docker run -d --name flexo-db -it -e MYSQL_ROOT_PASSWORD=<password> -p 127.0.0.1:3306:3306 mysql:5.7.14`
 2. `pip install -r requirements.txt && python3 ./seed-db.py` (or use a venv if you're fancy)
 3. Run migrations: `go run ./main.go migrate --dbPass <password>`
 
