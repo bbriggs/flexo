@@ -11,9 +11,9 @@
 `go run ./main.go run --dbPass <password>`
 
 ### Running with docker-compose
-`docker-compose up`
+`DB_NAME=flexo DB_USER=flexo DB_PASS=flexo docker-compose up`
 
-DB password should be changed (in the docker-compose.yml file) before running this.
+> `DB_NAME` and `DB_USER` default to `flexo`
 
 ## Testing
 Hermes only has 3 routes:

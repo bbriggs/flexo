@@ -6,9 +6,9 @@ services:
       - "127.0.0.1:8080:8080" # Change port?
     environment:
       DBADDR: "db:3306"
-      DBUSER: flexo
-      DBPASS: flexo
-      DBNAME: flexo
+      DBUSER: ${DB_USER:-flexo}
+      DBPASS: ${DB_PASS}
+      DBNAME: ${DB_NAME:-flexo}
 
       GIN_MODE: release
     depends_on:
@@ -20,6 +20,6 @@ services:
       - "127.0.0.1:3306:3306"
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes" # will be printed to stdout
-      MYSQL_DATABASE: flexo
-      MYSQL_USER: flexo
-      MYSQL_PASSWORD: flexo #Change that
+      MYSQL_DATABASE: ${DB_NAME:-flexo}
+      MYSQL_USER: ${DB_USER:-flexo}
+      MYSQL_PASSWORD: ${DB_PASS}
