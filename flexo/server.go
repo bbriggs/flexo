@@ -55,7 +55,7 @@ func Migrate(c Config) {
 }
 
 func Run(c Config) {
-	fmt.Println("Starting Hermes...")
+	fmt.Println("Starting Flexo...")
 	s := Server{
 		Router: gin.Default(),
 		DB:     dbConnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName),

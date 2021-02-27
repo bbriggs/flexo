@@ -1,4 +1,4 @@
-# Hermes
+# Flexo
 
 ## Quickstart
 
@@ -11,7 +11,7 @@
 `go run ./main.go run --dbPass <password>`
 
 ## Testing
-Hermes only has 3 routes:
+Flexo only has 3 routes:
 - GET /healthz
 - GET /api/v1/products
 - POST /api/v1/order
