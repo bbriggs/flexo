@@ -1,4 +1,4 @@
-# Hermes
+# Flexo
 
 ## Quickstart
 
@@ -16,7 +16,7 @@
 > `DB_NAME` and `DB_USER` default to `flexo`
 
 ## Testing
-Hermes only has 3 routes:
+Flexo only has 3 routes:
 - GET /healthz
 - GET /api/v1/products
 - POST /api/v1/order
