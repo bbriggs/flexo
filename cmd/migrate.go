@@ -26,7 +26,7 @@ import (
 	"fmt"
 	"os"
 
-	"hermes/hermes"
+	"flexo/flexo"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -41,13 +41,13 @@ var migrateCmd = &cobra.Command{
 			fmt.Println("Password not provided. Exiting!")
 			os.Exit(2)
 		}
-		c := hermes.Config{
+		c := flexo.Config{
 			DBUser: viper.GetString("dbUser"),
 			DBPass: viper.GetString("dbPass"),
 			DBAddr: viper.GetString("dbAddr"),
 			DBName: viper.GetString("dbName"),
 		}
-		hermes.Migrate(c)
+		flexo.Migrate(c)
 	},
 }
 

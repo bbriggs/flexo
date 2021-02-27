@@ -26,9 +26,9 @@ import (
 	"gorm.io/gorm"
 )
 
-type Product struct {
+type Target struct {
 	gorm.Model
-	Name        string
-	Price       float64
-	Description string
+	Name string
+	IP   string
+	OS   string
 }

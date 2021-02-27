@@ -34,7 +34,7 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "hermes",
+	Use:   "flexo",
 	Short: "A brief description of your application",
 	Long: `A longer description that spans multiple lines and likely contains
 examples and usage of using your application. For example:
@@ -58,7 +58,7 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.hermes.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.flexo.yaml)")
 
 	// All your args are belong to Viper
 	rootCmd.PersistentFlags().StringVarP(&dbUser, "dbUser", "", dbUser, "database username")
@@ -75,7 +75,7 @@ func init() {
 
 	viper.SetDefault("dbUser", "root")
 	viper.SetDefault("dbAddr", "127.0.0.1:3306")
-	viper.SetDefault("dbName", "hermes")
+	viper.SetDefault("dbName", "flexo")
 
 }
 
@@ -92,9 +92,9 @@ func initConfig() {
 			os.Exit(1)
 		}
 
-		// Search config in home directory with name ".hermes" (without extension).
+		// Search config in home directory with name ".flexo" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".hermes")
+		viper.SetConfigName(".flexo")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match

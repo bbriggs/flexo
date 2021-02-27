@@ -21,7 +21,7 @@ THE SOFTWARE.
 */
 package main
 
-import "hermes/cmd"
+import "flexo/cmd"
 
 func main() {
 	cmd.Execute()

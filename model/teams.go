@@ -20,57 +20,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-package hermes
+package model
 
 import (
-	"fmt"
-	"net/http"
-
-	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
-type Config struct {
-	DBUser string
-	DBPass string
-	DBAddr string
-	DBName string
-}
-
-type Server struct {
-	Router *gin.Engine
-	DB     *gorm.DB
-}
-
-func Migrate(c Config) {
-	fmt.Println("Running migrations...")
-	err := dbInit(c.DBUser, c.DBPass, c.DBAddr, c.DBName)
-	if err != nil {
-		fmt.Println("Encountered errors while migrating:")
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println("Migrations executed successfully!")
-}
-
-func Run(c Config) {
-	fmt.Println("Starting Hermes...")
-	s := Server{
-		Router: gin.Default(),
-		DB:     dbConnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName),
-	}
-
-	s.Router.GET("/healthz", s.healthCheck)
-	s.Router.GET("/api/v1/products", s.listProducts)
-	s.Router.POST("/api/v1/order", s.receiveOrder)
-	s.Router.Run()
-
-	defer fmt.Println("Goodbye!")
-}
-
-func (s *Server) healthCheck(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"status": "ok",
-	})
+type Team struct {
+	gorm.Model
+	Name string
 }
