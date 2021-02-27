@@ -23,15 +23,13 @@ THE SOFTWARE.
 package flexo
 
 import (
-	// stdlib
 	"fmt"
 	"os"
+	"strings"
 
-	// internal
 	"flexo/model"
 
-	// external
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -53,8 +51,20 @@ func dbCreate(user, pass, address, dbName string) *gorm.DB {
 }
 
 func dbConnect(user, pass, address, dbName string) *gorm.DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", user, pass, address, dbName)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	addressS := strings.Split(address, ":")
+
+	if len(addressS) != 2 {
+		panic("DB address isn't of the expected form host:port")
+	}
+
+	host := addressS[0]
+	port := addressS[1]
+
+	db, err := gorm.Open(postgres.New(postgres.Config{
+		DSN:                  fmt.Sprintf("host=%s user=%s password=%s DB.name=%s port=%s", host, user, pass, dbName, port),
+		PreferSimpleProtocol: true, // disables implicit prepared statement usage. By default pgx automatically uses the extended protocol
+	}), &gorm.Config{})
+
 	if err != nil {
 		panic(err)
 	}
