@@ -62,6 +62,10 @@ func Run(c Config) {
 	}
 
 	s.Router.GET("/healthz", s.healthCheck)
+	s.Router.GET("/targets", s.getTargets)
+	s.Router.GET("/teams", s.getTeams)
+	s.Router.GET("/categories", s.getCategories)
+	s.Router.POST("/event", s.event)
 	s.Router.Run()
 
 	defer fmt.Println("Goodbye!")
@@ -70,5 +74,36 @@ func Run(c Config) {
 func (s *Server) healthCheck(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
+	})
+}
+
+// event : Takes an event's category ID, a description string,
+// a comma separated list of ints for the involved team's IDs,
+// and another for the target's.
+// For instance, one could create an event using httpie with this command:
+// `http POST flexo_1/event category=1 description="a sample event" teams=1,2,3 targets=3,2,1`
+func (s *Server) event(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": "not implemented yet",
+	})
+}
+
+// getTargets: returns a list of all the targets as a JSON array.
+func (s *Server) getTargets(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": "not implemented yet",
+	})
+}
+
+// getTeams: returns a list of all the teams as a JSON array.
+func (s *Server) getTeams(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": "not implemented yet",
+	})
+}
+
+func (s *Server) getCategories(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": "not implemented yet",
 	})
 }
