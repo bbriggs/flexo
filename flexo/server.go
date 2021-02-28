@@ -89,17 +89,3 @@ func (s *Server) event(c *gin.Context) {
 		"status": "not implemented yet",
 	})
 }
-
-// getTargets: returns a list of all the targets as a JSON array.
-func (s *Server) getTargets(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"status": "not implemented yet",
-	})
-}
-
-// getTeams: returns a list of all the teams as a JSON array.
-func (s *Server) getTeams(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"status": "not implemented yet",
-	})
-}
