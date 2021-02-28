@@ -74,7 +74,7 @@ func init() {
 	viper.BindPFlag("dbName", rootCmd.PersistentFlags().Lookup("dbName"))
 
 	viper.SetDefault("dbUser", "root")
-	viper.SetDefault("dbAddr", "127.0.0.1:3306")
+	viper.SetDefault("dbAddr", "127.0.0.1:5432")
 	viper.SetDefault("dbName", "flexo")
 
 }
