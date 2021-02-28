@@ -28,5 +28,7 @@ import (
 
 type Category struct {
 	gorm.Model
-	Name string
+	Name        string
+	Description string
+	Multiplier  int
 }
