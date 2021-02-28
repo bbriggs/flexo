@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-package flexo
+package util
 
 import (
 	"fmt"
@@ -33,24 +33,24 @@ import (
 	"gorm.io/gorm"
 )
 
-func dbInit(user, pass, address, dbName string, sslmode bool) error {
-	db := dbCreate(user, pass, address, dbName, sslmode)
+func DBinit(user, pass, address, dbName string, sslmode bool) error {
+	db := DBcreate(user, pass, address, dbName, sslmode)
 	if db.Error != nil {
 		fmt.Println(db.Error)
 		fmt.Println("Could not create database")
 		os.Exit(3)
 	}
 
-	return dbConnect(user, pass, address, dbName, sslmode).AutoMigrate(&model.Team{}, &model.Category{}, &model.Target{})
+	return DBconnect(user, pass, address, dbName, sslmode).AutoMigrate(&model.Team{}, &model.Category{}, &model.Target{})
 }
 
-func dbCreate(user, pass, address, dbName string, sslmode bool) *gorm.DB {
-	db := dbConnect(user, pass, address, "", sslmode)
+func DBcreate(user, pass, address, dbName string, sslmode bool) *gorm.DB {
+	db := DBconnect(user, pass, address, "", sslmode)
 
 	return db.Raw(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", dbName))
 }
 
-func dbConnect(user, pass, address, dbName string, sslmode bool) *gorm.DB {
+func DBconnect(user, pass, address, dbName string, sslmode bool) *gorm.DB {
 	addr, err := net.ResolveTCPAddr("tcp", address)
 	if err != nil {
 		panic("DB address isn't of the expected form host:port")

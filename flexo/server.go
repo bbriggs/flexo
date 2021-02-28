@@ -28,6 +28,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+
+	"flexo/util"
 )
 
 type Config struct {
@@ -44,7 +46,7 @@ type Server struct {
 
 func Migrate(c Config) {
 	fmt.Println("Running migrations...")
-	err := dbInit(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false) //TODO SSL connection to the DB option
+	err := util.DBinit(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false) //TODO SSL connection to the DB option
 	if err != nil {
 		fmt.Println("Encountered errors while migrating:")
 		fmt.Println(err)
@@ -58,7 +60,7 @@ func Run(c Config) {
 	fmt.Println("Starting Flexo...")
 	s := Server{
 		Router: gin.Default(),
-		DB:     dbConnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false), //TODO SSL connection to the DB option
+		DB:     util.DBconnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false), //TODO SSL connection to the DB option
 	}
 
 	s.Router.GET("/healthz", s.healthCheck)
@@ -97,12 +99,6 @@ func (s *Server) getTargets(c *gin.Context) {
 
 // getTeams: returns a list of all the teams as a JSON array.
 func (s *Server) getTeams(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"status": "not implemented yet",
-	})
-}
-
-func (s *Server) getCategories(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status": "not implemented yet",
 	})

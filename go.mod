@@ -3,6 +3,7 @@ module flexo
 go 1.14
 
 require (
+	github.com/bxcodec/faker/v3 v3.6.0
 	github.com/gin-gonic/gin v1.6.3
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/spf13/cobra v1.1.3
