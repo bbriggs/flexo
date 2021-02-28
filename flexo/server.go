@@ -103,3 +103,9 @@ func (s *Server) getTeams(c *gin.Context) {
 		"status": "not implemented yet",
 	})
 }
+
+func (s *Server) getCategories(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": "not implemented yet",
+	})
+}
