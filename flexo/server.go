@@ -78,14 +78,3 @@ func (s *Server) healthCheck(c *gin.Context) {
 		"status": "ok",
 	})
 }
-
-// event : Takes an event's category ID, a description string,
-// a comma separated list of ints for the involved team's IDs,
-// and another for the target's.
-// For instance, one could create an event using httpie with this command:
-// `http POST flexo_1/event category=1 description="a sample event" teams=1,2,3 targets=3,2,1`
-func (s *Server) event(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"status": "not implemented yet",
-	})
-}
