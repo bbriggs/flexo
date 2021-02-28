@@ -24,8 +24,8 @@ package flexo
 
 import (
 	"fmt"
+	"net"
 	"os"
-	"strings"
 
 	"flexo/model"
 
@@ -51,17 +51,14 @@ func dbCreate(user, pass, address, dbName string) *gorm.DB {
 }
 
 func dbConnect(user, pass, address, dbName string) *gorm.DB {
-	addressS := strings.Split(address, ":")
 
-	if len(addressS) != 2 {
+	splitAddr, err := net.ResolveTCPAddr("tcp", address)
+	if err != nil {
 		panic("DB address isn't of the expected form host:port")
 	}
 
-	host := addressS[0]
-	port := addressS[1]
-
 	db, err := gorm.Open(postgres.New(postgres.Config{
-		DSN:                  fmt.Sprintf("host=%s user=%s password=%s DB.name=%s port=%s", host, user, pass, dbName, port),
+		DSN:                  fmt.Sprintf("host=%s user=%s password=%s DB.name=%s port=%d", splitAddr.IP, user, pass, dbName, splitAddr.Port),
 		PreferSimpleProtocol: true, // disables implicit prepared statement usage. By default pgx automatically uses the extended protocol
 	}), &gorm.Config{})
 
