@@ -44,7 +44,7 @@ type Server struct {
 
 func Migrate(c Config) {
 	fmt.Println("Running migrations...")
-	err := dbInit(c.DBUser, c.DBPass, c.DBAddr, c.DBName)
+	err := dbInit(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false) //TODO SSL connection to the DB option
 	if err != nil {
 		fmt.Println("Encountered errors while migrating:")
 		fmt.Println(err)
@@ -58,7 +58,7 @@ func Run(c Config) {
 	fmt.Println("Starting Flexo...")
 	s := Server{
 		Router: gin.Default(),
-		DB:     dbConnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName),
+		DB:     dbConnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false), //TODO SSL connection to the DB option
 	}
 
 	s.Router.GET("/healthz", s.healthCheck)
