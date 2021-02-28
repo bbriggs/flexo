@@ -51,14 +51,13 @@ func dbCreate(user, pass, address, dbName string) *gorm.DB {
 }
 
 func dbConnect(user, pass, address, dbName string) *gorm.DB {
-
-	splitAddr, err := net.ResolveTCPAddr("tcp", address)
+	addr, err := net.ResolveTCPAddr("tcp", address)
 	if err != nil {
 		panic("DB address isn't of the expected form host:port")
 	}
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
-		DSN:                  fmt.Sprintf("host=%s user=%s password=%s DB.name=%s port=%d", splitAddr.IP, user, pass, dbName, splitAddr.Port),
+		DSN:                  fmt.Sprintf("host=%s user=%s password=%s DB.name=%s port=%d", addr.IP, user, pass, dbName, addr.Port),
 		PreferSimpleProtocol: true, // disables implicit prepared statement usage. By default pgx automatically uses the extended protocol
 	}), &gorm.Config{})
 
