@@ -30,5 +30,5 @@ type Category struct {
 	gorm.Model
 	Name        string `faker:"word"`
 	Description string `faker:"sentence"`
-	Multiplier  int    `faker:"amount"`
+	Multiplier  int
 }
