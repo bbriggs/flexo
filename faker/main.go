@@ -8,7 +8,14 @@ import (
 )
 
 func main() {
-	db := model.DBconnect("postgres", "flexo", "postgres", "flexo", false)
+
+	db := util.DBconnect(
+		util.LookupEnv("FLEXO_DB_USER", "flexo"),
+		util.LookupEnv("FLEXO_DB_PASS", "flexo"),
+		util.LookupEnv("FLEXO_DB_HOST", "localhost"),
+		util.LookupEnv("FLEXO_DB_NAME", "flexo"),
+		util.LookupEnv("FLEXO_DB_SSLMODE", false),
+	)
 
 	categoryCount := 15
 	teamCount := 100
