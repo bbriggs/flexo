@@ -10,7 +10,7 @@ services:
     environment:
       DBADDR: "db:5432"
       DBUSER: ${DB_USER:-flexo}
-      DBPASS: ${DB_PASS}
+      DBPASS: ${DB_PASS:-flexo}
       DBNAME: ${DB_NAME:-flexo}
 
       GIN_MODE: release
@@ -28,7 +28,7 @@ services:
     environment:
       POSTGRES_DB: ${DB_NAME:-flexo}
       POSTGRES_USER: ${DB_USER:-flexo}
-      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_PASSWORD: ${DB_PASS:-flexo}
       PGDATA: /var/lib/postgresql/data/pgdata
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $DB_USER"]
