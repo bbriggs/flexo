@@ -28,7 +28,7 @@ import (
 
 type Target struct {
 	gorm.Model
-	Name string
-	IP   string
-	OS   string
+	Name string `faker:"username"`
+	IP   string `faker:"ipv4"`
+	OS   string `faker:"oneof: windows, linux, bsd"`
 }
