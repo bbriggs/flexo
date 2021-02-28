@@ -28,7 +28,7 @@ import (
 
 type Category struct {
 	gorm.Model
-	Name        string
-	Description string
-	Multiplier  int
+	Name        string `faker:"word"`
+	Description string `faker:"sentence"`
+	Multiplier  int    `faker:"amount"`
 }
