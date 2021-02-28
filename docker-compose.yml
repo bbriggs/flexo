@@ -1,25 +1,40 @@
 version: "3.8"
+
+# healthcheck from Vinicius Chan's answer to https://stackoverflow.com/questions/35069027/
+
 services:
   flexo:
     build: .
     ports:
       - "127.0.0.1:8080:8080" # Change port?
     environment:
-      DBADDR: "db:3306"
+      DBADDR: "db:5432"
       DBUSER: ${DB_USER:-flexo}
-      DBPASS: ${DB_PASS}
+      DBPASS: ${DB_PASS:-flexo}
       DBNAME: ${DB_NAME:-flexo}
 
       GIN_MODE: release
     depends_on:
+      db:
+        condition: service_healthy
+    links:
       - db
 
-  db: # Will be updated to a pg in issue #3
-    image: mysql:5.7.14
-    ports:
-      - "127.0.0.1:3306:3306"
+  db:
+    image: postgres:13.2
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: unless-stopped
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes" # will be printed to stdout
-      MYSQL_DATABASE: ${DB_NAME:-flexo}
-      MYSQL_USER: ${DB_USER:-flexo}
-      MYSQL_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME:-flexo}
+      POSTGRES_USER: ${DB_USER:-flexo}
+      POSTGRES_PASSWORD: ${DB_PASS:-flexo}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $DB_USER"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db-data:
