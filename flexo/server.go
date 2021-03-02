@@ -44,16 +44,10 @@ type Server struct {
 	DB     *gorm.DB
 }
 
-func Migrate(c Config) {
+func Migrate(c Config) error {
 	fmt.Println("Running migrations...")
 	err := util.DBinit(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false) //TODO SSL connection to the DB option
-	if err != nil {
-		fmt.Println("Encountered errors while migrating:")
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println("Migrations executed successfully!")
+	return err
 }
 
 func Run(c Config) {
@@ -61,6 +55,13 @@ func Run(c Config) {
 	s := Server{
 		Router: gin.Default(),
 		DB:     util.DBconnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false), //TODO SSL connection to the DB option
+	}
+
+	migrateErr := Migrate(c)
+	if migrateErr != nil {
+		fmt.Println(migrateErr)
+	} else {
+		fmt.Println("Migrations completed successfully!")
 	}
 
 	s.Router.GET("/healthz", s.healthCheck)

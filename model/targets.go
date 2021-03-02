@@ -23,12 +23,17 @@ THE SOFTWARE.
 package model
 
 import (
+	"time"
+
 	"gorm.io/gorm"
 )
 
 type Target struct {
-	gorm.Model
-	Name string `faker:"username"`
-	IP   string `faker:"ipv4"`
-	OS   string `faker:"oneof: windows, linux, bsd"`
+	ID        uint           `gorm:"primaryKey" faker:"-"`
+	CreatedAt time.Time      `faker:"-"`
+	UpdatedAt time.Time      `faker:"-"`
+	DeletedAt gorm.DeletedAt `gorm:"index" faker:"-"`
+	Name      string         `faker:"username"`
+	IP        string         `faker:"ipv4"`
+	OS        string         `faker:"oneof: windows, linux, bsd"`
 }

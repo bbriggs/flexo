@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 
 	"github.com/bxcodec/faker/v3"
 	"gorm.io/gorm"
@@ -26,8 +27,6 @@ func main() {
 
 	fakeCategories(db, categoryCount)
 	fakeTeams(db, teamCount)
-
-	fmt.Println("Aaaa")
 	fakeTargets(db, targetCount)
 }
 
@@ -39,6 +38,7 @@ func fakeCategories(db *gorm.DB, count int) {
 		if err != nil {
 			fmt.Println(err)
 		}
+		category.Multiplier = randRange(1, 15)
 
 		res := db.Create(&category)
 		if res.Error != nil {
@@ -77,4 +77,8 @@ func fakeTeams(db *gorm.DB, count int) {
 			fmt.Println(res.Error)
 		}
 	}
+}
+
+func randRange(min, max int) int {
+	return rand.Intn(max-min) + min
 }

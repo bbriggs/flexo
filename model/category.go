@@ -23,12 +23,17 @@ THE SOFTWARE.
 package model
 
 import (
+	"time"
+
 	"gorm.io/gorm"
 )
 
 type Category struct {
-	gorm.Model
-	Name        string `faker:"word"`
-	Description string `faker:"sentence"`
+	ID          uint           `gorm:"primaryKey" faker:"-"`
+	CreatedAt   time.Time      `faker:"-"`
+	UpdatedAt   time.Time      `faker:"-"`
+	DeletedAt   gorm.DeletedAt `gorm:"index" faker:"-"`
+	Name        string         `faker:"word"`
+	Description string         `faker:"sentence"`
 	Multiplier  int
 }

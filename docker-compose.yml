@@ -24,6 +24,8 @@ services:
     image: postgres:13.2
     volumes:
       - db-data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432" # Change port?
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${FLEXO_DB_NAME:-flexo}

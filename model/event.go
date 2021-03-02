@@ -1,11 +1,16 @@
 package model
 
 import (
+	"time"
+
 	"gorm.io/gorm"
 )
 
 type Event struct {
-	gorm.Model
+	ID          uint           `gorm:"primaryKey" faker:"-"`
+	CreatedAt   time.Time      `faker:"-"`
+	UpdatedAt   time.Time      `faker:"-"`
+	DeletedAt   gorm.DeletedAt `gorm:"index" faker:"-"`
 	Targets     []Target
 	Teams       []Team
 	Category    Category
