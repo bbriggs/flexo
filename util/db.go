@@ -58,8 +58,10 @@ func DBconnect(user, pass, address, dbName string, sslmode bool) *gorm.DB {
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s DB.name=%s port=%d", addr.IP, user, pass, dbName, addr.Port)
 	if sslmode {
-		dsn = fmt.Sprintf("%s sslmode=enable", dsn)
+		dsn = fmt.Sprintf("%s sslmode=require", dsn)
 	}
+
+	fmt.Println(dsn)
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,
