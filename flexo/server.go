@@ -37,6 +37,7 @@ type Config struct {
 	DBPass string
 	DBAddr string
 	DBName string
+	DBssl  bool
 }
 
 type Server struct {
@@ -46,7 +47,7 @@ type Server struct {
 
 func Migrate(c Config) error {
 	fmt.Println("Running migrations...")
-	err := util.DBinit(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false) //TODO SSL connection to the DB option
+	err := util.DBinit(c.DBUser, c.DBPass, c.DBAddr, c.DBName, c.DBssl)
 	return err
 }
 
@@ -54,7 +55,7 @@ func Run(c Config) {
 	fmt.Println("Starting Flexo...")
 	s := Server{
 		Router: gin.Default(),
-		DB:     util.DBconnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false), //TODO SSL connection to the DB option
+		DB:     util.DBconnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, c.DBssl),
 	}
 
 	migrateErr := Migrate(c)
