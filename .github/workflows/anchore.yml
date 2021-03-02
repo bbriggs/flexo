@@ -1,0 +1,15 @@
+name: Anchore Scan
+
+on:
+  push:
+
+jobs:
+  anchore-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Anchore Container Scan
+        uses: anchore/scan-action@v2.0.4
+        with:
+          path: "."
+          fail-build: true
