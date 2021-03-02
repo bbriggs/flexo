@@ -7,6 +7,8 @@
 
 > All 3 config variables default to `flexo`, but DB_USER must be specified in the command so that the health check can execute successfully.
 
+> DBSSL sets the connection to the database's ssl mode options. It is set to `disable` by default.
+
 ## Testing
 
 ### Resetting the database
