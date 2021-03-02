@@ -37,7 +37,7 @@ type Config struct {
 	DBPass string
 	DBAddr string
 	DBName string
-	DBssl  bool
+	DBssl  string
 }
 
 type Server struct {

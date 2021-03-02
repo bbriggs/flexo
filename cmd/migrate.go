@@ -46,7 +46,7 @@ var migrateCmd = &cobra.Command{
 			DBPass: viper.GetString("dbPass"),
 			DBAddr: viper.GetString("dbAddr"),
 			DBName: viper.GetString("dbName"),
-			DBssl:  viper.GetBool("dbSSL"),
+			DBssl:  viper.GetString("dbSSL"),
 		}
 		flexo.Migrate(c)
 	},
