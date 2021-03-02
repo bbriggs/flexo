@@ -41,7 +41,7 @@ func DBinit(user, pass, address, dbName string, sslmode bool) error {
 		os.Exit(3)
 	}
 
-	return DBconnect(user, pass, address, dbName, sslmode).AutoMigrate(&model.Team{}, &model.Category{}, &model.Target{})
+	return DBconnect(user, pass, address, dbName, sslmode).AutoMigrate(&model.Team{}, &model.Category{}, &model.Target{}, &model.Event{})
 }
 
 func DBcreate(user, pass, address, dbName string, sslmode bool) *gorm.DB {
