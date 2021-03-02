@@ -28,6 +28,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+
+	"flexo/util"
 )
 
 type Config struct {
@@ -42,26 +44,32 @@ type Server struct {
 	DB     *gorm.DB
 }
 
-func Migrate(c Config) {
+func Migrate(c Config) error {
 	fmt.Println("Running migrations...")
-	err := dbInit(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false) //TODO SSL connection to the DB option
-	if err != nil {
-		fmt.Println("Encountered errors while migrating:")
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println("Migrations executed successfully!")
+	err := util.DBinit(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false) //TODO SSL connection to the DB option
+	return err
 }
 
 func Run(c Config) {
 	fmt.Println("Starting Flexo...")
 	s := Server{
 		Router: gin.Default(),
-		DB:     dbConnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false), //TODO SSL connection to the DB option
+		DB:     util.DBconnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, false), //TODO SSL connection to the DB option
+	}
+
+	migrateErr := Migrate(c)
+	if migrateErr != nil {
+		fmt.Println(migrateErr)
+	} else {
+		fmt.Println("Migrations completed successfully!")
 	}
 
 	s.Router.GET("/healthz", s.healthCheck)
+	s.Router.GET("/targets", s.getTargets)
+	s.Router.GET("/teams", s.getTeams)
+	s.Router.GET("/categories", s.getCategories)
+	s.Router.GET("/events", s.getEvents)
+	s.Router.POST("/event", s.postEvent)
 	s.Router.Run()
 
 	defer fmt.Println("Goodbye!")

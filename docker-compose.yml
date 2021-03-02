@@ -9,11 +9,11 @@ services:
       - "127.0.0.1:8080:8080" # Change port?
     environment:
       DBADDR: "db:5432"
-      DBUSER: ${DB_USER:-flexo}
-      DBPASS: ${DB_PASS:-flexo}
-      DBNAME: ${DB_NAME:-flexo}
+      DBUSER: ${FLEXO_DB_USER:-flexo}
+      DBPASS: ${FLEXO_DB_PASS:-flexo}
+      DBNAME: ${FLEXO_DB_NAME:-flexo}
 
-      GIN_MODE: release
+      GIN_MODE: ${FLEXO_GIN_MODE:-release}
     depends_on:
       db:
         condition: service_healthy
@@ -24,11 +24,13 @@ services:
     image: postgres:13.2
     volumes:
       - db-data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432" # Change port?
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_NAME:-flexo}
-      POSTGRES_USER: ${DB_USER:-flexo}
-      POSTGRES_PASSWORD: ${DB_PASS:-flexo}
+      POSTGRES_DB: ${FLEXO_DB_NAME:-flexo}
+      POSTGRES_USER: ${FLEXO_DB_USER:-flexo}
+      POSTGRES_PASSWORD: ${FLEXO_DB_PASS:-flexo}
       PGDATA: /var/lib/postgresql/data/pgdata
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $DB_USER"]

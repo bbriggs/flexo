@@ -2,26 +2,47 @@
 
 ## Quickstart
 
-### Prepare the Database
-1. Start a database: `docker run -d --name flexo-db -it -e MYSQL_ROOT_PASSWORD=<password> -p 127.0.0.1:3306:3306 mysql:5.7.14`
-2. `pip install -r requirements.txt && python3 ./seed-db.py` (or use a venv if you're fancy)
-3. Run migrations: `go run ./main.go migrate --dbPass <password>`
-
-### Start the server
-`go run ./main.go run --dbPass <password>`
-
 ### Running with docker-compose
-`DB_NAME=flexo DB_USER=flexo DB_PASS=flexo docker-compose up`
+`DB_USER=flexo docker-compose up`
 
-> `DB_NAME` and `DB_USER` default to `flexo`
+> All 3 config variables default to `flexo`, but DB_USER must be specified in the command so that the health check can execute successfully.
 
 ## Testing
-Flexo only has 3 routes:
-- GET /healthz
-- GET /api/v1/products
-- POST /api/v1/order
 
-To send an order using [httpie](https://httpie.io/):
+### Resetting the database
+If you want a clean database, you have to stop the docker compose stack, remove the docker compose stack, then delete the docker volume with the DB data before starting the stack again.
+
 ```
-http --json post http://localhost:8080/api/v1/order IDs:='[1,2,3]'
+➜  flexo  git:(main) ✗ docker volume list
+DRIVER              VOLUME NAME
+local               flexo_db-data
+
+➜  flexo  git:(main) ✗ docker-compose rm -f
+Going to remove flexo_flexo_1, flexo_db_1
+Removing flexo_flexo_1 ... done
+Removing flexo_db_1    ... done
+
+➜  flexo  git:(main) ✗ docker volume rm flexo_db-data
+flexo_db-data
 ```
+
+### Building fresh code
+`docker-compose up --build -d`
+
+### Adding mock data
+From the `faker` directory, `go run ./main.go`
+
+### Sending an event
+`http --json post http://localhost:8080/event targets:='[1,2,3]' teams:='[1,2,3]' category:=1 description="test event"`
+
+### Get teams
+`http localhost:8080/teams`
+
+### Get categories
+`http localhost:8080/categories`
+
+### Get events
+`http localhost:8080/events`
+
+### Get targets
+`http localhost:8080/targets`
