@@ -11,3 +11,13 @@ func LookupEnv(key, fallback string) string {
 	}
 	return fallback
 }
+
+func LookupEnvBool(key string, fallback bool) bool {
+	if value, ok := os.LookupEnv(key); ok {
+		if value == "true" {
+			return true
+		}
+		return false
+	}
+	return fallback
+}

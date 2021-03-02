@@ -18,7 +18,7 @@ func main() {
 		util.LookupEnv("FLEXO_DB_PASS", "flexo"),
 		util.LookupEnv("FLEXO_DB_HOST", "localhost:5432"),
 		util.LookupEnv("FLEXO_DB_NAME", "flexo"),
-		/*util.LookupEnv("FLEXO_DB_SSLMODE", false)*/ false,
+		util.LookupEnvBool("FLEXO_DB_SSLMODE", false),
 	)
 
 	categoryCount := 15
