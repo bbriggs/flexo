@@ -26,6 +26,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"strings"
 
 	"flexo/model"
 
@@ -51,12 +52,12 @@ func DBcreate(user, pass, address, dbName, sslmode string) *gorm.DB {
 }
 
 func DBconnect(user, pass, address, dbName, sslmode string) *gorm.DB {
-	addr, err := net.ResolveTCPAddr("tcp", address)
+	host, port, err := extractHostAndPort(address)
 	if err != nil {
 		panic("DB address isn't of the expected form host:port")
 	}
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s DB.name=%s port=%d, sslmode=%s", addr.IP, user, pass, dbName, addr.Port, sslmode)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s DB.name=%s port=%s, sslmode=%s", host, user, pass, dbName, port, sslmode)
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,
@@ -68,4 +69,17 @@ func DBconnect(user, pass, address, dbName, sslmode string) *gorm.DB {
 	}
 
 	return db
+}
+
+func extractHostAndPort(address string) (string, string, error) {
+	// Is this a domain ?
+	splitAddr := strings.Split(address, ":")
+	_, e := net.LookupHost(splitAddr[0])
+	if e == nil {
+		return splitAddr[0], splitAddr[1], nil
+	}
+
+	// If not, is this an IP?
+	addr, err := net.ResolveTCPAddr("tcp", address)
+	return addr.IP.String(), fmt.Sprintf("%d", addr.Port), err
 }
