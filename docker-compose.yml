@@ -12,7 +12,7 @@ services:
       DBUSER: ${FLEXO_DB_USER:-flexo}
       DBPASS: ${FLEXO_DB_PASS:-flexo}
       DBNAME: ${FLEXO_DB_NAME:-flexo}
-      DBSSL: ${FLEXO_DB_SSL:-false}
+      DBSSL: ${FLEXO_DB_SSL:-disable}
 
       GIN_MODE: ${FLEXO_GIN_MODE:-release}
     depends_on:
