@@ -33,7 +33,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func DBinit(user, pass, address, dbName string, sslmode bool) error {
+func DBinit(user, pass, address, dbName, sslmode string) error {
 	db := DBcreate(user, pass, address, dbName, sslmode)
 	if db.Error != nil {
 		fmt.Println(db.Error)
@@ -44,22 +44,19 @@ func DBinit(user, pass, address, dbName string, sslmode bool) error {
 	return DBconnect(user, pass, address, dbName, sslmode).AutoMigrate(&model.Team{}, &model.Category{}, &model.Target{}, &model.Event{})
 }
 
-func DBcreate(user, pass, address, dbName string, sslmode bool) *gorm.DB {
+func DBcreate(user, pass, address, dbName, sslmode string) *gorm.DB {
 	db := DBconnect(user, pass, address, "", sslmode)
 
 	return db.Raw(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", dbName))
 }
 
-func DBconnect(user, pass, address, dbName string, sslmode bool) *gorm.DB {
+func DBconnect(user, pass, address, dbName, sslmode string) *gorm.DB {
 	addr, err := net.ResolveTCPAddr("tcp", address)
 	if err != nil {
 		panic("DB address isn't of the expected form host:port")
 	}
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s DB.name=%s port=%d", addr.IP, user, pass, dbName, addr.Port)
-	if sslmode {
-		dsn = fmt.Sprintf("%s sslmode=enable", dsn)
-	}
+	dsn := fmt.Sprintf("host=%s user=%s password=%s DB.name=%s port=%d, sslmode=%s", addr.IP, user, pass, dbName, addr.Port, sslmode)
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,

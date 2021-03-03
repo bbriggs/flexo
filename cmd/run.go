@@ -26,10 +26,11 @@ import (
 )
 
 var (
-	dbUser string
-	dbPass string
-	dbAddr string
-	dbName string
+	dbUser    string
+	dbPass    string
+	dbAddr    string
+	dbName    string
+	dbSSLMode string
 )
 
 // runCmd represents the run command
@@ -46,6 +47,7 @@ var runCmd = &cobra.Command{
 			DBPass: viper.GetString("dbPass"),
 			DBAddr: viper.GetString("dbAddr"),
 			DBName: viper.GetString("dbName"),
+			DBssl:  viper.GetString("dbSSL"),
 		}
 		flexo.Run(c)
 	},
