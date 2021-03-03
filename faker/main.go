@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"time"
 
 	"github.com/bxcodec/faker/v3"
 	"gorm.io/gorm"
@@ -12,13 +13,14 @@ import (
 )
 
 func main() {
+	rand.Seed(time.Now().UTC().UnixNano())
 
 	db := util.DBconnect(
 		util.LookupEnv("FLEXO_DB_USER", "flexo"),
 		util.LookupEnv("FLEXO_DB_PASS", "flexo"),
 		util.LookupEnv("FLEXO_DB_HOST", "localhost:5432"),
 		util.LookupEnv("FLEXO_DB_NAME", "flexo"),
-		util.LookupEnvBool("FLEXO_DB_SSLMODE", false),
+		util.LookupEnv("FLEXO_DB_SSLMODE", "disable"),
 	)
 
 	categoryCount := 15
