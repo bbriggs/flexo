@@ -25,6 +25,6 @@ jobs:
         with:
           push: true # Will only build if this is not here
           tags: |
-            ghcr.io/${{ github.repository }}:${{ steps.get_version.outputs.VERSION }}
-            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/seccdc/flexo:${{ steps.get_version.outputs.VERSION }}
+            ghcr.io/seccdc/flexo:latest
 
