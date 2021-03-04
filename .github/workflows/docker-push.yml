@@ -25,6 +25,6 @@ jobs:
         with:
           push: true # Will only build if this is not here
           tags: |
-            docker.pkg.github.com/seccdc/flexo:${{ steps.get_version.outputs.VERSION }}
-            docker.pkg.github.com/seccdc/flexo:latest
+            docker.pkg.github.com/seccdc/flexo/${{ steps.get_version.outputs.VERSION }}
+            docker.pkg.github.com/seccdc/flexo/latest
 
