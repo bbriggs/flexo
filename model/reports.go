@@ -1,5 +1,7 @@
 package model
 
 type TeamReport struct {
-	Score int
+	Score    int
+	Timeline []Event
+	Targets  []Target
 }

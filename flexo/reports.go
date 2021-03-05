@@ -3,16 +3,34 @@ package flexo
 import (
 	"fmt"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 
 	"flexo/model"
 )
 
+//TODO beaucoup trop long
 func (s *Server) teamReport(c *gin.Context) {
-	id := c.Param("ID")
+	id_str := c.Param("ID")
 
-	var team model.Team
+	id, err := strconv.Atoi(id_str)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, "ID isn't an int")
+		return
+	}
+
+	baseMultiplier := 5
+
+	var (
+		score    int
+		team     model.Team
+		timeline []model.Event
+		targets  []model.Target
+
+		cat model.Category
+	)
 
 	res := s.DB.First(&team, id)
 	if res.Error != nil {
@@ -20,64 +38,49 @@ func (s *Server) teamReport(c *gin.Context) {
 		return
 	}
 
-	score, err := s.getScore(team)
-	if err != nil {
-		//TODO
+	res = s.DB.Where(fmt.Sprintf("%d = ANY (teams)", id)).
+		Order("created_at ASC").Find(&timeline)
+
+	if res.Error != nil {
+		c.JSON(http.StatusInternalServerError, "couldn't fetch timeline")
+		return
+	}
+
+	targs := make(map[int64]bool)
+	for _, e := range timeline {
+		res := s.DB.First(&cat, e.Category)
+		if res.Error != nil {
+			c.JSON(http.StatusInternalServerError, "couldn't fetch data")
+			return
+		}
+		score += cat.Multiplier
+
+		//Get the targets
+		for _, t := range e.Targets {
+			targs[t] = true
+		}
+	}
+
+	score *= baseMultiplier
+
+	targsQstring := "SELECT * FROM targets WHERE"
+	for i := range targs {
+		targsQstring = fmt.Sprintf(" %s id = %d OR", targsQstring, i)
+	}
+	targsQstring += "$"
+	targsQstring = strings.Replace(targsQstring, "OR$", "", -1)
+
+	res = s.DB.Raw(targsQstring).Find(&targets)
+	if res.Error != nil {
+		c.JSON(http.StatusInternalServerError, "couldn't fetch targets")
+		return
 	}
 
 	report := model.TeamReport{
-		Score: score,
+		Score:    score,
+		Timeline: timeline,
+		Targets:  targets,
 	}
 
 	c.JSON(http.StatusOK, report)
-}
-
-func (s *Server) getScore(t model.Team) (int, error) {
-	var events, allEvents []model.Event
-
-	// TODO There is probably something to be done with gorm.
-	// sqlQuery := fmt.Sprintf("%d = ANY (teams)", t.ID)
-
-	res := s.DB.Find(&allEvents)
-	if res.Error != nil {
-		fmt.Println("Couldn't query events")
-		return -1, res.Error
-	}
-
-	for _, e := range allEvents {
-		for _, teamID := range e.Teams {
-			if uint(teamID) == t.ID {
-				events = append(events, e)
-			}
-		}
-
-	}
-
-	return s.scoreFromEvents(events)
-}
-
-func (s *Server) scoreFromEvents(ev []model.Event) (int, error) {
-	score := 0
-	//TODO make this configurable/more visible
-	constantMultiplier := 5
-
-	for _, e := range ev {
-		s, err := s.getCategoryMultiplier(e)
-		if err != nil {
-			fmt.Println("Couldn't get event multiplier")
-			return -1, err
-
-		} else {
-			score += s * constantMultiplier
-		}
-	}
-
-	return score, nil
-}
-
-func (s *Server) getCategoryMultiplier(event model.Event) (int, error) {
-	var c model.Category
-	res := s.DB.First(&c, event.Category)
-
-	return c.Multiplier, res.Error
 }
