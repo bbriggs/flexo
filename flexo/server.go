@@ -71,6 +71,9 @@ func Run(c Config) {
 	s.Router.GET("/categories", s.getCategories)
 	s.Router.GET("/events", s.getEvents)
 	s.Router.POST("/event", s.postEvent)
+
+	s.Router.GET("/report/team/:ID", s.teamReport)
+
 	s.Router.Run()
 
 	defer fmt.Println("Goodbye!")
