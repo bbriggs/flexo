@@ -48,3 +48,6 @@ From the `faker` directory, `go run ./main.go`
 
 ### Get targets
 `http localhost:8080/targets`
+
+### Getting a team report
+`http localhost:8080/report/team/$ID` where $ID is the team's ID.
