@@ -47,3 +47,28 @@ func queryEvents(db *gorm.DB) ([]model.Event, error) {
 	res := db.Find(&events)
 	return events, res.Error
 }
+
+func (s *Server) computeEventValue(categoryID, baseMultiplier int) (int, error) {
+	var cat model.Category
+	res := s.DB.First(&cat, categoryID)
+	return cat.Multiplier * baseMultiplier, res.Error
+}
+
+func (s *Server) fetchTeamTimeline(id int) ([]model.Event, error) {
+	var team model.Team
+
+	var timeline []model.Event
+
+	res := s.DB.First(&team, id)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	res = s.DB.Where(fmt.Sprintf("%d = ANY (teams)", id)).
+		Order("created_at ASC").Find(&timeline)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	return timeline, nil
+}

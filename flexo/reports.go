@@ -1,17 +1,14 @@
 package flexo
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 
 	"flexo/model"
 )
 
-//TODO beaucoup trop long
 func (s *Server) teamReport(c *gin.Context) {
 	id_str := c.Param("ID")
 
@@ -22,59 +19,29 @@ func (s *Server) teamReport(c *gin.Context) {
 	}
 
 	baseMultiplier := 5
+	score := 0
 
-	var (
-		score    int
-		team     model.Team
-		timeline []model.Event
-		targets  []model.Target
-
-		cat model.Category
-	)
-
-	res := s.DB.First(&team, id)
-	if res.Error != nil {
-		c.JSON(http.StatusNotFound, "no team with that ID")
-		return
-	}
-
-	res = s.DB.Where(fmt.Sprintf("%d = ANY (teams)", id)).
-		Order("created_at ASC").Find(&timeline)
-
-	if res.Error != nil {
+	timeline, err := s.fetchTeamTimeline(id)
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, "couldn't fetch timeline")
 		return
 	}
 
-	targs := make(map[int64]bool)
+	targs := []int{}
 	for _, e := range timeline {
-		res := s.DB.First(&cat, e.Category)
-		if res.Error != nil {
-			c.JSON(http.StatusInternalServerError, "couldn't fetch data")
+		sc, err := s.computeEventValue(e.Category, baseMultiplier)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, "couldn't fetch score")
 			return
 		}
-		score += cat.Multiplier
+		score += sc
 
-		//Get the targets
 		for _, t := range e.Targets {
-			targs[t] = true
+			targs = append(targs, int(t))
 		}
 	}
 
-	score *= baseMultiplier
-
-	targsQstring := "SELECT * FROM targets WHERE"
-	for i := range targs {
-		targsQstring = fmt.Sprintf(" %s id = %d OR", targsQstring, i)
-	}
-	targsQstring += "$"
-	targsQstring = strings.Replace(targsQstring, "OR$", "", -1)
-
-	res = s.DB.Raw(targsQstring).Find(&targets)
-	if res.Error != nil {
-		c.JSON(http.StatusInternalServerError, "couldn't fetch targets")
-		return
-	}
+	targets, err := s.getTargetList(targs)
 
 	report := model.TeamReport{
 		Score:    score,
