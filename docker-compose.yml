@@ -34,7 +34,7 @@ services:
       POSTGRES_PASSWORD: ${FLEXO_DB_PASS:-flexo}
       PGDATA: /var/lib/postgresql/data/pgdata
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $DB_USER"]
+      test: ["CMD-SHELL", "pg_isready -U $FLEXO_DB_USER"]
       interval: 5s
       timeout: 5s
       retries: 5
