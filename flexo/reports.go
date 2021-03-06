@@ -1,6 +1,7 @@
 package flexo
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -31,8 +32,7 @@ func (s *Server) teamReport(c *gin.Context) {
 	for _, e := range timeline {
 		sc, err := s.computeEventValue(e.Category, baseMultiplier)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, "couldn't fetch score")
-			return
+			fmt.Printf("Couldn't compute event %d's value\n", e.ID)
 		}
 		score += sc
 
