@@ -32,7 +32,7 @@ flexo_db-data
 ### Building fresh code
 `docker-compose up --build -d`
 
-### Authentification
+### Authentication and Authorization
 The shared secret is used like a very basic JWT.
 `Authorization` header must have a value of `Bearer $secret`.
 
