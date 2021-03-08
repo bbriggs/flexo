@@ -76,10 +76,14 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&dbSSLMode, "dbSSL", "", dbSSLMode, "use sslmode to connect to the database")
 	viper.BindPFlag("dbSSL", rootCmd.PersistentFlags().Lookup("dbSSL"))
 
+	rootCmd.PersistentFlags().StringVarP(&secret, "secret", "", secret, "secret shared with the front-end")
+	viper.BindPFlag("secret", rootCmd.PersistentFlags().Lookup("secret"))
+
 	viper.SetDefault("dbUser", "root")
 	viper.SetDefault("dbAddr", "127.0.0.1:5432")
 	viper.SetDefault("dbName", "flexo")
 	viper.SetDefault("dbSSL", "disable")
+	viper.SetDefault("secret", "shared_secret")
 
 }
 

@@ -38,6 +38,7 @@ type Config struct {
 	DBAddr string
 	DBName string
 	DBssl  string
+	Secret string
 }
 
 type Server struct {
@@ -64,6 +65,8 @@ func Run(c Config) {
 	} else {
 		fmt.Println("Migrations completed successfully!")
 	}
+
+	s.Router.Use(util.SecretProvided(c.Secret))
 
 	s.Router.GET("/healthz", s.healthCheck)
 	s.Router.GET("/targets", s.getTargets)
