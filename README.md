@@ -3,9 +3,10 @@
 ## Quickstart
 
 ### Running with docker-compose
-`DB_USER=flexo docker-compose up`
+`SECRET=zbeul DB_USER=flexo docker-compose up`
 
 > All 3 config variables default to `flexo`, but DB_USER must be specified in the command so that the health check can execute successfully.
+> `SECRET` is the secret shared between the frontend and the backend. It defaults to "shared_secret"
 
 > DBSSL sets the connection to the database's ssl mode options. It is set to `disable` by default.
 
