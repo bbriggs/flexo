@@ -32,6 +32,10 @@ flexo_db-data
 ### Building fresh code
 `docker-compose up --build -d`
 
+### Authentification
+The shared secret is used like a very basic JWT.
+`Authorization` header must have a value of `Bearer $secret`.
+
 ### Adding mock data
 From the `faker` directory, `go run ./main.go`
 
