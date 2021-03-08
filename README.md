@@ -36,6 +36,10 @@ flexo_db-data
 The shared secret is used like a very basic JWT.
 `Authorization` header must have a value of `Bearer $secret`.
 
+`http -v --auth-type=jwt --auth="test" "localhost:8080/report/team/1"`
+
+You need the [httpie-jwt-auth plugin](https://github.com/teracyhq/httpie-jwt-auth) to run this command.
+
 ### Adding mock data
 From the `faker` directory, `go run ./main.go`
 
