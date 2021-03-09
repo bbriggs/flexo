@@ -1,6 +1,7 @@
 package flexo
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -27,4 +28,22 @@ func queryCategories(db *gorm.DB) ([]model.Category, error) {
 
 	res := db.Find(&categories)
 	return categories, res.Error
+}
+
+func (s *Server) postCategory(c *gin.Context) {
+	var category model.Category
+
+	if err := c.ShouldBindJSON(&category); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	res := s.DB.Create(&category)
+	if res.Error != nil {
+		fmt.Println(res.Error)
+		c.JSON(http.StatusInternalServerError, "Couldn't create category")
+		return
+	}
 }
