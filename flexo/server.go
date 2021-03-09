@@ -75,12 +75,19 @@ func Run(c Config) {
 	authorized.Use(util.SecretProvided(c.Secret))
 	{
 		s.Router.GET("/targets", s.getTargets)
+
 		s.Router.GET("/teams", s.getTeams)
 		s.Router.POST("/team", s.postTeam)
+
 		s.Router.GET("/categories", s.getCategories)
 		s.Router.POST("/category", s.postCategory)
+
 		s.Router.GET("/events", s.getEvents)
 		s.Router.POST("/event", s.postEvent)
+
+		s.Router.GET("/ecom", s.getEcomEvents)
+		s.Router.POST("/ecom", s.postEcomEvent)
+
 		s.Router.GET("/report/team/:ID", s.teamReport)
 	}
 
