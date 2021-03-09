@@ -1,6 +1,7 @@
 package flexo
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -28,4 +29,22 @@ func queryTeams(db *gorm.DB) ([]model.Team, error) {
 
 	res := db.Find(&teams)
 	return teams, res.Error
+}
+
+func (s *Server) postTeam(c *gin.Context) {
+	var team model.Team
+
+	if err := c.ShouldBindJSON(&team); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	res := s.DB.Create(&team)
+	if res.Error != nil {
+		fmt.Println(res.Error)
+		c.JSON(http.StatusInternalServerError, "Couldn't create team")
+		return
+	}
 }
