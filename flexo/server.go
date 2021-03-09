@@ -66,7 +66,8 @@ func Run(c Config) {
 		fmt.Println("Migrations completed successfully!")
 	}
 
-	s.Router.Use(util.SecretProvided(c.Secret))
+	authorized := s.Router.Group("/")
+	authorized.Use(util.SecretProvided(c.Secret))
 	{
 		s.Router.GET("/targets", s.getTargets)
 		s.Router.GET("/teams", s.getTeams)
