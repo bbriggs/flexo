@@ -55,9 +55,14 @@ func Migrate(c Config) error {
 func Run(c Config) {
 	fmt.Println("Starting Flexo...")
 	s := Server{
-		Router: gin.Default(),
+		Router: gin.New(),
 		DB:     util.DBconnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, c.DBssl),
 	}
+
+	s.Router.Use(
+		gin.LoggerWithWriter(gin.DefaultWriter, "/healthz"),
+		gin.Recovery(),
+	)
 
 	migrateErr := Migrate(c)
 	if migrateErr != nil {
