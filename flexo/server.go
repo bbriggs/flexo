@@ -71,7 +71,7 @@ func Run(c Config) {
 	{
 		s.Router.GET("/targets", s.getTargets)
 		s.Router.GET("/teams", s.getTeams)
-		s.Router.POST("/category", s.postCategory)
+		s.Router.POST("/team", s.postTeam)
 		s.Router.GET("/categories", s.getCategories)
 		s.Router.POST("/category", s.postCategory)
 		s.Router.GET("/events", s.getEvents)
