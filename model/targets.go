@@ -34,6 +34,5 @@ type Target struct {
 	UpdatedAt time.Time      `faker:"-"`
 	DeletedAt gorm.DeletedAt `gorm:"index" faker:"-"`
 	Name      string         `faker:"username"`
-	IP        string         `faker:"ipv4"`
 	OS        string         `faker:"oneof: windows, linux, bsd"`
 }

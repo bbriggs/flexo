@@ -45,3 +45,21 @@ func (s *Server) getTargetList(ids []int) ([]model.Target, error) {
 
 	return targets, res.Error
 }
+
+func (s *Server) postTarget(c *gin.Context) {
+	var target model.Target
+
+	if err := c.ShouldBindJSON(&target); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	res := s.DB.Create(&target)
+	if res.Error != nil {
+		fmt.Println(res.Error)
+		c.JSON(http.StatusInternalServerError, "Couldn't create target")
+		return
+	}
+}

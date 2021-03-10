@@ -80,6 +80,7 @@ func Run(c Config) {
 	authorized.Use(util.SecretProvided(c.Secret))
 	{
 		s.Router.GET("/targets", s.getTargets)
+		s.Router.POST("/target", s.postTarget)
 
 		s.Router.GET("/teams", s.getTeams)
 		s.Router.POST("/team", s.postTeam)
