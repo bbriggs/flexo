@@ -26,6 +26,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
@@ -62,6 +63,9 @@ func Run(c Config) {
 	s.Router.Use(
 		gin.LoggerWithWriter(gin.DefaultWriter, "/healthz"),
 		gin.Recovery(),
+		cors.New(cors.Config{
+			AllowOrigins: []string{"https://scoreboard.fraq.io"},
+		}),
 	)
 
 	migrateErr := Migrate(c)
