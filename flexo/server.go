@@ -64,7 +64,7 @@ func Run(c Config) {
 		gin.LoggerWithWriter(gin.DefaultWriter, "/healthz"),
 		gin.Recovery(),
 		cors.New(cors.Config{
-			AllowOrigins: []string{"https://scoreboard.fraq.io"},
+			AllowOrigins: []string{"*"},
 			AllowHeaders: []string{"authorization", "origin", "content-type", "accept"},
 		}),
 	)
