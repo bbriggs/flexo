@@ -65,6 +65,7 @@ func Run(c Config) {
 		gin.Recovery(),
 		cors.New(cors.Config{
 			AllowOrigins: []string{"https://scoreboard.fraq.io"},
+			AllowHeaders: []string{"authorization", "origin", "content-type", "accept"},
 		}),
 	)
 
