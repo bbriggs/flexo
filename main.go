@@ -21,7 +21,7 @@ THE SOFTWARE.
 */
 package main
 
-import "flexo/cmd"
+import "github.com/SECCDC/flexo/cmd"
 
 func main() {
 	cmd.Execute()

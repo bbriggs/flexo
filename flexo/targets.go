@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
-	"flexo/model"
+	"github.com/SECCDC/flexo/model"
 )
 
 func (s *Server) getTargets(c *gin.Context) {

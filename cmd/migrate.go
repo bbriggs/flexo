@@ -26,7 +26,7 @@ import (
 	"fmt"
 	"os"
 
-	"flexo/flexo"
+	"github.com/SECCDC/flexo/flexo"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

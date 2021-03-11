@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"flexo/model"
+	"github.com/SECCDC/flexo/model"
 )
 
 func (s *Server) teamReport(c *gin.Context) {
