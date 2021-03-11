@@ -19,7 +19,7 @@ func (s *Server) teamReport(c *gin.Context) {
 		return
 	}
 
-	baseMultiplier := 5
+	baseMultiplier := 20
 	score := 0
 
 	timeline, err := s.fetchTeamTimeline(id)
