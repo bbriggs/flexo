@@ -30,7 +30,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
-	"flexo/util"
+	"github.com/SECCDC/flexo/util"
 )
 
 type Config struct {

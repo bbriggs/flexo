@@ -22,7 +22,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"flexo/flexo"
+	"github.com/SECCDC/flexo/flexo"
 )
 
 var (

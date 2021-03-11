@@ -28,7 +28,7 @@ import (
 	"os"
 	"strings"
 
-	"flexo/model"
+	"github.com/SECCDC/flexo/model"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
