@@ -94,6 +94,8 @@ func Run(c Config) {
 		s.Router.GET("/ecom", s.getEcomEvents)
 		s.Router.POST("/ecom", s.postEcomEvent)
 
+
+		s.Router.GET("/report/teams", s.allTeamsReport)
 		s.Router.GET("/report/team/:ID", s.teamReport)
 	}
 
