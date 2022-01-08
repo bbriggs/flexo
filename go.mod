@@ -3,6 +3,7 @@ module github.com/SECCDC/flexo
 go 1.14
 
 require (
+	github.com/bxcodec/faker/v3 v3.7.0
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.3
 	github.com/lib/pq v1.10.0
