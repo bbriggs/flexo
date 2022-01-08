@@ -69,7 +69,7 @@ func (s *Server) allTeamsReport(c *gin.Context) {
 		return
 	}
 
-	reps := make([]model.TeamReport, 0)
+	reps := make(map[string]model.TeamReport)
 
 	for _, t := range teams {
 		rep, err := s.generateOneTeamReport(int(t.ID))
@@ -77,7 +77,7 @@ func (s *Server) allTeamsReport(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, "Couldn't fetch report")
 			return
 		}
-		reps = append(reps, rep)
+		reps[t.Name] = rep
 	}
 
 	c.JSON(http.StatusOK, reps)
