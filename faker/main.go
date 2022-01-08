@@ -8,8 +8,8 @@ import (
 	"github.com/bxcodec/faker/v3"
 	"gorm.io/gorm"
 
-	"flexo/model"
-	"flexo/util"
+	"github.com/SECCDC/flexo/model"
+	"github.com/SECCDC/flexo/util"
 )
 
 func main() {
