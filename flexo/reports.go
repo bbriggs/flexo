@@ -10,11 +10,11 @@ import (
 	"github.com/SECCDC/flexo/model"
 )
 
-func (s *Server) generateOneTeamReport(id int) (model.TeamReport, error){
+func (s *Server) generateOneTeamReport(t model.Team) (model.TeamReport, error) { // FIXME: Pass a pointer, not the whole struct here
 	baseMultiplier := 20
 	score := 0
 
-	timeline, err := s.fetchTeamTimeline(id)
+	timeline, err := s.fetchTeamTimeline(t.TeamID)
 	if err != nil {
 		return model.TeamReport{}, err
 	}
@@ -44,15 +44,23 @@ func (s *Server) generateOneTeamReport(id int) (model.TeamReport, error){
 }
 
 func (s *Server) teamReport(c *gin.Context) {
+	// Sanitize the input
 	id_str := c.Param("ID")
-
 	id, err := strconv.Atoi(id_str)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, "ID isn't an int")
 		return
 	}
 
-	report, err := s.generateOneTeamReport(id)
+	// Get the team struct
+	team, err := queryTeamByID(s.DB, id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "Unable to find a team by that ID") // Is this the right return code?
+		return
+	}
+
+	report, err := s.generateOneTeamReport(team)
+
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "couldn't fetch timeline")
 		return
@@ -72,9 +80,9 @@ func (s *Server) allTeamsReport(c *gin.Context) {
 	reps := make(map[string]model.TeamReport)
 
 	for _, t := range teams {
-		rep, err := s.generateOneTeamReport(int(t.ID))
+		rep, err := s.generateOneTeamReport(t)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, "Couldn't fetch report")
+			c.JSON(http.StatusInternalServerError, "Couldn't fetch report") // TODO: use error wrapping here
 			return
 		}
 		reps[t.Name] = rep
