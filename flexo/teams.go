@@ -66,6 +66,6 @@ func (s *Server) deleteTeam(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "Couldn't delete team")
 		return
 	}
-	
+
 	c.JSON(http.StatusOK, b)
 }
