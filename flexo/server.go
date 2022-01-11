@@ -79,28 +79,31 @@ func Run(c Config) {
 	authorized := s.Router.Group("/")
 	authorized.Use(util.SecretProvided(c.Secret))
 	{
-		s.Router.GET("/targets", s.getTargets)
-		s.Router.POST("/target", s.postTarget)
+		authorized.GET("/targets", s.getTargets)
+		authorized.POST("/target", s.postTarget)
 
-		s.Router.GET("/teams", s.getTeams)
-		s.Router.POST("/team", s.postTeam)
+		authorized.GET("/teams", s.getTeams)
+		authorized.POST("/team", s.postTeam)
 
-		s.Router.GET("/categories", s.getCategories)
-		s.Router.POST("/category", s.postCategory)
+		authorized.GET("/categories", s.getCategories)
+		authorized.POST("/category", s.postCategory)
 
-		s.Router.GET("/events", s.getEvents)
-		s.Router.POST("/event", s.postEvent)
+		authorized.GET("/events", s.getEvents)
+		authorized.POST("/event", s.postEvent)
 
-		s.Router.GET("/ecom", s.getEcomEvents)
-		s.Router.POST("/ecom", s.postEcomEvent)
+		authorized.GET("/ecom", s.getEcomEvents)
+		authorized.POST("/ecom", s.postEcomEvent)
 
 
-		s.Router.GET("/report/teams", s.allTeamsReport)
-		s.Router.GET("/report/team/:ID", s.teamReport)
+		authorized.GET("/report/teams", s.allTeamsReport)
+		authorized.GET("/report/team/:ID", s.teamReport)
 	}
 
 	s.Router.GET("/healthz", s.healthCheck)
-	s.Router.Run()
+	err := s.Router.Run()
+	if err != nil {
+		fmt.Printf("Ran into an error: %s\n", err)
+	}
 
 	defer fmt.Println("Goodbye!")
 }

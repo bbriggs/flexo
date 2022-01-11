@@ -99,6 +99,7 @@ func fakeEvents(db *gorm.DB, count int) {
 	}
 }
 
+/* #nosec */
 func randRange(min, max int) int {
 	return rand.Intn(max-min) + min
 }

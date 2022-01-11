@@ -48,7 +48,10 @@ var migrateCmd = &cobra.Command{
 			DBName: viper.GetString("dbName"),
 			DBssl:  viper.GetString("dbSSL"),
 		}
-		flexo.Migrate(c)
+		err := flexo.Migrate(c)
+		if err != nil {
+			fmt.Printf("Couldn't migrate: %s\n", err)
+		}
 	},
 }
 
