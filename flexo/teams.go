@@ -55,3 +55,17 @@ func (s *Server) postTeam(c *gin.Context) {
 		return
 	}
 }
+
+func (s *Server) deleteTeam(c *gin.Context) {
+	// Will there be a problem by not cleaning up events etc ?
+	var b model.Team
+
+	id_str := c.Param("ID")
+	res := s.DB.Where("team_id = ?", id_str).Delete(&b)
+	if res.Error != nil {
+		c.JSON(http.StatusInternalServerError, "Couldn't delete team")
+		return
+	}
+	
+	c.JSON(http.StatusOK, b)
+}
