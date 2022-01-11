@@ -84,17 +84,23 @@ func Run(c Config) {
 
 		authorized.GET("/teams", s.getTeams)
 		authorized.POST("/team", s.postTeam)
+
 		authorized.DELETE("/team/:ID", s.deleteTeam)
+
 
 		authorized.GET("/categories", s.getCategories)
 		authorized.POST("/category", s.postCategory)
 
 		authorized.GET("/events", s.getEvents)
 		authorized.POST("/event", s.postEvent)
+
 		authorized.DELETE("/event/:ID", s.deleteEvent)
+
 
 		authorized.GET("/ecom", s.getEcomEvents)
 		authorized.POST("/ecom", s.postEcomEvent)
+
+
 
 		authorized.GET("/report/teams", s.allTeamsReport)
 		authorized.GET("/report/team/:ID", s.teamReport)
