@@ -26,10 +26,12 @@ func main() {
 	categoryCount := 15
 	teamCount := 100
 	targetCount := 50
+	eventCount:= 500
 
 	fakeCategories(db, categoryCount)
 	fakeTeams(db, teamCount)
 	fakeTargets(db, targetCount)
+	fakeEvents(db, eventCount)
 }
 
 func fakeCategories(db *gorm.DB, count int) {
@@ -75,6 +77,22 @@ func fakeTeams(db *gorm.DB, count int) {
 		}
 
 		res := db.Create(&team)
+		if res.Error != nil {
+			fmt.Println(res.Error)
+		}
+	}
+}
+
+func fakeEvents(db *gorm.DB, count int) {
+	for i := 0; i < count; i++ {
+		event := model.Event{}
+
+		err := faker.FakeData(&event)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		res := db.Create(&event)
 		if res.Error != nil {
 			fmt.Println(res.Error)
 		}
