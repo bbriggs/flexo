@@ -31,6 +31,13 @@ func queryTeams(db *gorm.DB) ([]model.Team, error) {
 	return teams, res.Error
 }
 
+func queryTeamByID(db *gorm.DB, id int) (model.Team, error) {
+	var team model.Team
+
+	res := db.Where("team_id = ?", fmt.Sprintf("%d", id)).Find(&team)
+	return team, res.Error
+}
+
 func (s *Server) postTeam(c *gin.Context) {
 	var team model.Team
 

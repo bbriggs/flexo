@@ -4,4 +4,5 @@ type TeamReport struct {
 	Score    int
 	Timeline []Event
 	Targets  []Target
+	Team     Team
 }
