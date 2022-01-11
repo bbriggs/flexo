@@ -100,7 +100,10 @@ func Run(c Config) {
 	}
 
 	s.Router.GET("/healthz", s.healthCheck)
-	s.Router.Run()
+	err := s.Router.Run()
+	if err != nil {
+		fmt.Printf("Ran into an error: %s\n", err)
+	}
 
 	defer fmt.Println("Goodbye!")
 }

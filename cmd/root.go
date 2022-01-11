@@ -62,22 +62,40 @@ func init() {
 
 	// All your args are belong to Viper
 	rootCmd.PersistentFlags().StringVarP(&dbUser, "dbUser", "", dbUser, "database username")
-	viper.BindPFlag("dbUser", rootCmd.PersistentFlags().Lookup("dbUser"))
+	err := viper.BindPFlag("dbUser", rootCmd.PersistentFlags().Lookup("dbUser"))
+	if err != nil {
+		fmt.Printf("Couldn't get flag: %s\n", err)
+	}
 
 	rootCmd.PersistentFlags().StringVarP(&dbPass, "dbPass", "", dbPass, "database password")
-	viper.BindPFlag("dbPass", rootCmd.PersistentFlags().Lookup("dbPass"))
+	err = viper.BindPFlag("dbPass", rootCmd.PersistentFlags().Lookup("dbPass"))
+	if err != nil {
+		fmt.Printf("Couldn't get flag: %s\n", err)
+	}
 
 	rootCmd.PersistentFlags().StringVarP(&dbAddr, "dbAddr", "", dbAddr, "database address")
-	viper.BindPFlag("dbAddr", rootCmd.PersistentFlags().Lookup("dbAddr"))
+	err = viper.BindPFlag("dbAddr", rootCmd.PersistentFlags().Lookup("dbAddr"))
+	if err != nil {
+		fmt.Printf("Couldn't get flag: %s\n", err)
+	}
 
 	rootCmd.PersistentFlags().StringVarP(&dbName, "dbName", "", dbName, "database to use")
-	viper.BindPFlag("dbName", rootCmd.PersistentFlags().Lookup("dbName"))
+	err = viper.BindPFlag("dbName", rootCmd.PersistentFlags().Lookup("dbName"))
+	if err != nil {
+		fmt.Printf("Couldn't get flag: %s\n", err)
+	}
 
 	rootCmd.PersistentFlags().StringVarP(&dbSSLMode, "dbSSL", "", dbSSLMode, "use sslmode to connect to the database")
-	viper.BindPFlag("dbSSL", rootCmd.PersistentFlags().Lookup("dbSSL"))
+	err = viper.BindPFlag("dbSSL", rootCmd.PersistentFlags().Lookup("dbSSL"))
+	if err != nil {
+		fmt.Printf("Couldn't get flag: %s\n", err)
+	}
 
 	rootCmd.PersistentFlags().StringVarP(&secret, "secret", "", secret, "secret shared with the front-end")
-	viper.BindPFlag("secret", rootCmd.PersistentFlags().Lookup("secret"))
+	err = viper.BindPFlag("secret", rootCmd.PersistentFlags().Lookup("secret"))
+	if err != nil {
+		fmt.Printf("Couldn't get flag: %s\n", err)
+	}
 
 	viper.SetDefault("dbUser", "root")
 	viper.SetDefault("dbAddr", "127.0.0.1:5432")
