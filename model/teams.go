@@ -33,7 +33,7 @@ type Team struct {
 	CreatedAt time.Time      `faker:"-"`
 	UpdatedAt time.Time      `faker:"-"`
 	DeletedAt gorm.DeletedAt `gorm:"index" faker:"-"`
-	Name      string         `faker:"username" gorm:"unique"`
-	TeamID    int            `gorm:"unique" json:"team_id"`
-	Abbrev    string         `gorm:"unique" json:"abbrev"`
+	Name      string         `gorm:"unique" faker:"sentence"`
+	TeamID    int            `faker:"-" gorm:"unique" json:"team_id"`
+	Abbrev    string         `gorm:"unique" json:"abbrev" faker:"username"`
 }
