@@ -38,6 +38,7 @@ func (s *Server) generateOneTeamReport(t model.Team) (model.TeamReport, error) {
 		Score:    score,
 		Timeline: timeline,
 		Targets:  targets,
+		Team:     t,
 	}
 
 	return report, nil
@@ -77,15 +78,16 @@ func (s *Server) allTeamsReport(c *gin.Context) {
 		return
 	}
 
-	reps := make(map[string]model.TeamReport)
+	reps := []model.TeamReport{}
 
 	for _, t := range teams {
-		rep, err := s.generateOneTeamReport(t)
+		rep, err := s.generateOneTeamReport(t) // FIXME: Index starts at 0, teams start at 1. Papered this over in faker.
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, "Couldn't fetch report") // TODO: use error wrapping here
 			return
 		}
-		reps[t.Name] = rep
+		// This isn't visually confusing at all </s>
+		reps = append(reps, rep) // parsec said it's easier for him if we just return an array in json
 	}
 
 	c.JSON(http.StatusOK, reps)
