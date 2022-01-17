@@ -1,6 +1,7 @@
 # Flexo
 
 ![BING BONG](https://img.shields.io/badge/BING-BONG-red?style=plastic&logo=appveyor)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/SECCDC/flexo)
 ![Docker build status](https://img.shields.io/github/workflow/status/SECCDC/flexo/Deploy%20Docker?label=Docker%20build&style=plastic)
 ![License](https://img.shields.io/badge/License-MIT-brightgreen?style=plastic)
 ![GitHub contributors](https://img.shields.io/github/contributors/SECCDC/flexo?style=plastic)
