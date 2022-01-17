@@ -62,4 +62,4 @@ From the `faker` directory, `go run ./main.go`
 `http localhost:8080/report/team/$ID` where $ID is the team's ID.
 
 ### Getting all teams report
-`http localhost:8080/report/teams` return a json map linking each team's name to a report.
+`http localhost:8080/report/teams` return a json list of each team with their associated report
