@@ -1,37 +1,20 @@
-## Welcome to GitHub Pages
+## Flexo
 
-You can use the [editor on GitHub](https://github.com/SECCDC/flexo/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Flexo is the API used to record and score attacks against student teams for SE CCDC. It consists of a REST API, a CLI named [bender](https://github.com/SECCDC/bender), and a [web frontend](https://github.com/SECCDC/flexo-web)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Deployment
 
-### Markdown
+Choose your preferred deployment method below. For local deployments, the [docker compose](pages/deployment/docker-compose.md) method is strongly recommended as the smoothest deployment and rebuild experience.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- [Standalone](pages/deployment/standalone.md)
+- [Docker Compose](pages/deployment/docker-compose.md)
 
-```markdown
-Syntax highlighted code block
+### Development
 
-# Header 1
-## Header 2
-### Header 3
+To make development easier, we have curated a list of common tasks for Flexo development. 
 
-- Bulleted
-- List
+- [Generating fake data with `faker`](pages/development/generating-fake-data.md)
+- [Connecting to the database](pages/development/postgres.md)
+- [Testing HTTP calls](pages/development/testing-the-api.md)
+- [Viewing logs](pages/development/viewing-logs.md)
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/SECCDC/flexo/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
