@@ -1,8 +1,9 @@
 # Flexo
 
-![](https://img.shields.io/badge/BING-BONG-red?style=plastic&logo=appveyor)
-![](https://img.shields.io/github/workflow/status/SECCDC/flexo/Deploy%20Docker?label=Docker%20build&style=plastic)
-![](https://img.shields.io/badge/License-MIT-brightgreen?style=plastic)
+![BING BONG](https://img.shields.io/badge/BING-BONG-red?style=plastic&logo=appveyor)
+![Docker build status](https://img.shields.io/github/workflow/status/SECCDC/flexo/Deploy%20Docker?label=Docker%20build&style=plastic)
+![License](https://img.shields.io/badge/License-MIT-brightgreen?style=plastic)
+![GitHub contributors](https://img.shields.io/github/contributors/SECCDC/flexo?style=plastic)
 
 ## Quickstart
 
