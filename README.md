@@ -1,6 +1,6 @@
 # Flexo
 
-![](https://img.shields.io/badge/Bing-bong-red?style=plastic&logo=appveyor)
+![](https://img.shields.io/badge/BING-BONG-red?style=plastic&logo=appveyor)
 
 ## Quickstart
 
