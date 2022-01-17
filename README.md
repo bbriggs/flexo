@@ -1,5 +1,7 @@
 # Flexo
 
+![](https://img.shields.io/badge/Bing-bong-red?style=plastic&logo=appveyor)
+
 ## Quickstart
 
 ### Running with docker-compose
