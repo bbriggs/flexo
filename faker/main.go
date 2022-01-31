@@ -24,9 +24,10 @@ func main() {
 	)
 
 	categoryCount := 15
-	teamCount := 100
-	targetCount := 50
-	eventCount:= 500
+	teamCount := 10
+	targetCount := 10
+	eventCount := 5
+	_ = faker.SetRandomMapAndSliceSize(5) // Set team and target slice lens to max of 5
 
 	fakeCategories(db, categoryCount)
 	fakeTeams(db, teamCount)
@@ -72,6 +73,7 @@ func fakeTeams(db *gorm.DB, count int) {
 		team := model.Team{}
 
 		err := faker.FakeData(&team)
+		team.TeamID = i + 1
 		if err != nil {
 			fmt.Println(err)
 		}
