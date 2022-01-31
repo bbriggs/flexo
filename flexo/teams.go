@@ -74,10 +74,11 @@ func (s *Server) deleteTeam(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, "Couldn't update events regarding team deletion")
 	}
+
+	var newTeams pq.Int64Array
 	for _, event := range evs {
 		teams := event.Teams
 		deleted_id, _ := strconv.ParseInt(id_str, 2, 64)
-		var newTeams pq.Int64Array
 		for _, id := range teams {
 			if id != deleted_id {
 				newTeams= append(newTeams, id)
