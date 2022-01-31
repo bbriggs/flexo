@@ -3,8 +3,10 @@ package flexo
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
+	pq "github.com/lib/pq"
 	"gorm.io/gorm"
 
 	"github.com/SECCDC/flexo/model"
@@ -65,6 +67,23 @@ func (s *Server) deleteTeam(c *gin.Context) {
 	if res.Error != nil {
 		c.JSON(http.StatusInternalServerError, "Couldn't delete team")
 		return
+	}
+
+	// let's update events mentionning the team we are deleting
+	evs, err := queryEvents(s.DB)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "Couldn't update events regarding team deletion")
+	}
+	for _, event := range evs {
+		teams := event.Teams
+		deleted_id, _ := strconv.ParseInt(id_str, 2, 64)
+		var newTeams pq.Int64Array
+		for _, id := range teams {
+			if id != deleted_id {
+				newTeams= append(newTeams, id)
+			}
+		}
+		s.DB.Model(&event).Update("Teams", newTeams)
 	}
 
 	c.JSON(http.StatusOK, b)
