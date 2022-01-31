@@ -78,6 +78,7 @@ func (s *Server) deleteTeam(c *gin.Context) {
 	var newTeams pq.Int64Array
 	for _, event := range evs {
 		teams := event.Teams
+		newTeams = make(pq.Int64Array, 0)
 		deleted_id, _ := strconv.ParseInt(id_str, 2, 64)
 		for _, id := range teams {
 			if id != deleted_id {
