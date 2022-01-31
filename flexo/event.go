@@ -28,6 +28,20 @@ func (s *Server) postEvent(c *gin.Context) {
 	}
 }
 
+func (s *Server) deleteEvent(c *gin.Context) {
+	// Will there be a problem by not cleaning up events etc ?
+	var b model.Event
+
+	id_str := c.Param("ID")
+	res := s.DB.Where("id = ?", id_str).Delete(&b)
+	if res.Error != nil {
+		c.JSON(http.StatusInternalServerError, "Couldn't delete event")
+		return
+	}
+
+	c.JSON(http.StatusOK, b)
+}
+
 func (s *Server) getEvents(c *gin.Context) {
 	events, err := queryEvents(s.DB)
 

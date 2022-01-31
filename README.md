@@ -68,4 +68,10 @@ From the `faker` directory, `go run ./main.go`
 `http localhost:8080/report/team/$ID` where $ID is the team's ID.
 
 ### Getting all teams report
-`http localhost:8080/report/teams` return a json list of each team with their associated report
+`http localhost:8080/report/teams` return a json map linking each team's name to a report.
+
+### Removing a team
+`http -v --auth-type=jwt --auth="shared_secret" --json delete "localhost:8080/team/ID"`
+
+### Removing an event
+`http -v --auth-type=jwt --auth="shared_secret" --json delete "localhost:8080/event/ID"`
