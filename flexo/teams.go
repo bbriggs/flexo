@@ -54,4 +54,6 @@ func (s *Server) postTeam(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "Couldn't create team")
 		return
 	}
+
+s.Bytebot.sendMessage(fmt.Sprintf("New team: %s", team))
 }

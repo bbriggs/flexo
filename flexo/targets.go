@@ -62,4 +62,6 @@ func (s *Server) postTarget(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "Couldn't create target")
 		return
 	}
+
+	s.Bytebot.sendMessage(fmt.Sprintf("New target: %s", target))
 }
