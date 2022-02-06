@@ -3,6 +3,7 @@ package flexo
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -26,6 +27,31 @@ func (s *Server) postEvent(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "Couldn't create event")
 		return
 	}
+
+	var sb strings.Builder
+	
+	var team model.Team
+	var target model.Target
+	var category model.Category
+
+	s.DB.Where("id = ?", fmt.Sprintf("%d", event.Category)).Find(&category)
+
+	sb.WriteString(fmt.Sprintf("New event in %s (x%d) category:\n * Teams: ", category.Name, category.Multiplier)
+	for _, i := range event.Teams {
+		s.DB.Where("team_id = ?", fmt.Sprintf("%d", i)).Find(&team)
+		sb.WriteString(team.String())
+		sb.WriteString("; ")
+	}
+
+	sb.WriteString("\n * Targets: ")
+	for _, i := range event.Targets {
+		s.DB.Where("id = ?", fmt.Sprintf("%d", i)).Find(&target)
+		sb.WriteString(target.String())
+		sb.WriteString("; ")
+	}
+
+	s.Bytebot.sendMessage(sb.String())
+
 }
 
 func (s *Server) getEvents(c *gin.Context) {
