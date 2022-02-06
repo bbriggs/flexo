@@ -55,6 +55,7 @@ func Migrate(c Config) error {
 
 func Run(c Config) {
 	fmt.Println("Starting Flexo...")
+	fmt.Printf("Connecting to database %s on host %s...\n", c.DBName, c.DBAddr)
 	s := Server{
 		Router: gin.New(),
 		DB:     util.DBconnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, c.DBssl),
@@ -93,7 +94,6 @@ func Run(c Config) {
 
 		authorized.GET("/ecom", s.getEcomEvents)
 		authorized.POST("/ecom", s.postEcomEvent)
-
 
 		authorized.GET("/report/teams", s.allTeamsReport)
 		authorized.GET("/report/team/:ID", s.teamReport)
