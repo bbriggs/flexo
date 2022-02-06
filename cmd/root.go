@@ -103,8 +103,14 @@ func init() {
 		fmt.Printf("Couldn't get flag: %s\n", err)
 	}
 
-	rootCmd.PersistentFlags().StringVarP(&BytebotPubSub, "bytebotPubSub", "", BytebotPubSub, "Address of the flexo channel used for outbound discord messages")
+	rootCmd.PersistentFlags().StringVarP(&BytebotPubSub, "bytebotPubSub", "", BytebotPubSub, "Address of the bytebot channel used for outbound discord messages")
 	err = viper.BindPFlag("bytebotPubSub", rootCmd.PersistentFlags().Lookup("bytebotPubSub"))
+	if err != nil {
+		fmt.Printf("Couldn't get flag: %s\n", err)
+	}
+
+	rootCmd.PersistentFlags().StringVarP(&BytebotChannel, "bytebotChannel", "", BytebotChannel, "ID of the discord channel messages should be pushed to")
+	err = viper.BindPFlag("bytebotChannel", rootCmd.PersistentFlags().Lookup("bytebotChannel"))
 	if err != nil {
 		fmt.Printf("Couldn't get flag: %s\n", err)
 	}

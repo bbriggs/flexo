@@ -33,8 +33,9 @@ var (
 	dbSSLMode string
 	secret    string
 
-	BytebotRedis  string
-	BytebotPubSub string
+	BytebotRedis   string
+	BytebotPubSub  string
+	BytebotChannel string
 )
 
 // runCmd represents the run command
@@ -47,14 +48,15 @@ var runCmd = &cobra.Command{
 			os.Exit(2)
 		}
 		c := flexo.Config{
-			DBUser:        viper.GetString("dbUser"),
-			DBPass:        viper.GetString("dbPass"),
-			DBAddr:        viper.GetString("dbAddr"),
-			DBName:        viper.GetString("dbName"),
-			DBssl:         viper.GetString("dbSSL"),
-			Secret:        viper.GetString("secret"),
-			BytebotRedis:  viper.GetString("bytebotRedis"),
-			BytebotPubSub: viper.GetString("bytebotPubSub"),
+			DBUser:         viper.GetString("dbUser"),
+			DBPass:         viper.GetString("dbPass"),
+			DBAddr:         viper.GetString("dbAddr"),
+			DBName:         viper.GetString("dbName"),
+			DBssl:          viper.GetString("dbSSL"),
+			Secret:         viper.GetString("secret"),
+			BytebotRedis:   viper.GetString("bytebotRedis"),
+			BytebotPubSub:  viper.GetString("bytebotPubSub"),
+			BytebotChannel: viper.GetString("bytebotChannel"),
 		}
 		flexo.Run(c)
 	},

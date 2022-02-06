@@ -55,5 +55,5 @@ func (s *Server) postTeam(c *gin.Context) {
 		return
 	}
 
-s.Bytebot.sendMessage(fmt.Sprintf("New team: %s", team))
+	s.Bytebot.sendMessage(fmt.Sprintf("New team: %s", team))
 }

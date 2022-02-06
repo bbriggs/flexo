@@ -41,8 +41,9 @@ type Config struct {
 	DBssl  string
 	Secret string
 
-	BytebotRedis  string
-	BytebotPubSub string
+	BytebotRedis   string
+	BytebotPubSub  string
+	BytebotChannel string
 }
 
 type Server struct {
@@ -60,8 +61,8 @@ func Migrate(c Config) error {
 func Run(c Config) {
 	fmt.Println("Starting Flexo...")
 
-	fmt.Println("Trying to connect to bytebot")
-	bbc, err := connectToBytebot(c.BytebotRedis, c.BytebotPubSub)
+	fmt.Println("Connecting to bytebot")
+	bbc, err := connectToBytebot(c.BytebotRedis, c.BytebotPubSub, c.BytebotChannel)
 	if err != nil {
 		fmt.Println("Couldn't connect to bytebot")
 	}

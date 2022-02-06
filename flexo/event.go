@@ -29,14 +29,14 @@ func (s *Server) postEvent(c *gin.Context) {
 	}
 
 	var sb strings.Builder
-	
+
 	var team model.Team
 	var target model.Target
 	var category model.Category
 
 	s.DB.Where("id = ?", fmt.Sprintf("%d", event.Category)).Find(&category)
 
-	sb.WriteString(fmt.Sprintf("New event in %s (x%d) category:\n * Teams: ", category.Name, category.Multiplier)
+	sb.WriteString(fmt.Sprintf("New event in %s (x%d) category:\n * Teams: ", category.Name, category.Multiplier))
 	for _, i := range event.Teams {
 		s.DB.Where("team_id = ?", fmt.Sprintf("%d", i)).Find(&team)
 		sb.WriteString(team.String())

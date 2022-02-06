@@ -16,7 +16,7 @@ type bytebotApp struct {
 	ChannelID  string
 }
 
-func connectToBytebot(redisAddr, pubsub string) (*bytebotApp, error) {
+func connectToBytebot(redisAddr, pubsub, channel string) (*bytebotApp, error) {
 
 	ctx := context.Background()
 	rdb := redis.NewClient(&redis.Options{
@@ -34,7 +34,7 @@ func connectToBytebot(redisAddr, pubsub string) (*bytebotApp, error) {
 		}
 	}
 
-	return &bytebotApp{Connection: rdb, PubSub: pubsub, Ctx: &ctx}, err
+	return &bytebotApp{Connection: rdb, PubSub: pubsub, Ctx: &ctx, ChannelID: channel}, err
 }
 
 func (s *bytebotApp) sendMessage(message string) {
