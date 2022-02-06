@@ -1,6 +1,6 @@
 module github.com/SECCDC/flexo
 
-go 1.14
+go 1.17
 
 require (
 	github.com/bketelsen/crypt v0.0.3-0.20200106085610-5cbc8cc4026c // indirect
