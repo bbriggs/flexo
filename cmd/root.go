@@ -23,8 +23,10 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"os"
+
+	"github.com/SECCDC/flexo/flexo"
+	"github.com/spf13/cobra"
 
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
@@ -42,9 +44,21 @@ examples and usage of using your application. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Run: func(cmd *cobra.Command, args []string) {
+		if viper.GetString("dbPass") == "" {
+			fmt.Println("Password not provided. Exiting!")
+			os.Exit(2)
+		}
+		c := flexo.Config{
+			DBUser: viper.GetString("dbUser"),
+			DBPass: viper.GetString("dbPass"),
+			DBAddr: viper.GetString("dbAddr"),
+			DBName: viper.GetString("dbName"),
+			DBssl:  viper.GetString("dbSSL"),
+			Secret: viper.GetString("secret"),
+		}
+		flexo.Run(c)
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
