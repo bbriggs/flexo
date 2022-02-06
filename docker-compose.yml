@@ -14,6 +14,8 @@ services:
       DBNAME: ${FLEXO_DB_NAME:-flexo}
       DBSSL: ${FLEXO_DB_SSL:-disable}
       SECRET: ${FLEXO_SECRET:-shared_secret}
+      BYTEBOTREDIS: ${FLEXO_BYTEBOT_REDIS:-redis:6379}
+      BYTEBOTPUBSUB: ${FLEXO_BYTEBOT_PUBSUB:-discord-outbound}
 
       GIN_MODE: ${FLEXO_GIN_MODE:-release}
     depends_on:
@@ -39,6 +41,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  bytebot:
+    image: redis:latest
 
 volumes:
   db-data:

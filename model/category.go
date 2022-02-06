@@ -23,6 +23,7 @@ THE SOFTWARE.
 package model
 
 import (
+	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -36,4 +37,8 @@ type Category struct {
 	Name        string         `faker:"word"`
 	Description string         `faker:"sentence"`
 	Multiplier  int
+}
+
+func (c Category) String() string {
+	return fmt.Sprintf("%s (%s): multiplier x%d", c.Name, c.Description, c.Multiplier)
 }

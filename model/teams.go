@@ -37,3 +37,7 @@ type Team struct {
 	TeamID    int            `faker:"-" gorm:"unique" json:"team_id"`
 	Abbrev    string         `gorm:"unique" json:"abbrev" faker:"username"`
 }
+
+func (t Team) String() string {
+	return t.Name
+}

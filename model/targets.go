@@ -23,6 +23,7 @@ THE SOFTWARE.
 package model
 
 import (
+	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -35,4 +36,8 @@ type Target struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" faker:"-"`
 	Name      string         `faker:"username"`
 	OS        string         `faker:"oneof: windows, linux, bsd"`
+}
+
+func (t Target) String() string {
+	return fmt.Sprintf("%s (%s)", t.Name, t.OS)
 }

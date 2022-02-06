@@ -26,6 +26,8 @@ func (s *Server) postEcomEvent(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "Couldn't create event")
 		return
 	}
+
+	s.Bytebot.sendMessage(fmt.Sprintf("New ecom event: %s", event))
 }
 
 func (s *Server) getEcomEvents(c *gin.Context) {
