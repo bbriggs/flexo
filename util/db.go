@@ -25,6 +25,7 @@ package util
 import (
 	"fmt"
 	"net"
+	"net/url"
 	"os"
 	"strings"
 
@@ -57,10 +58,16 @@ func DBconnect(user, pass, address, dbName, sslmode string) *gorm.DB {
 		panic("DB address isn't of the expected form host:port")
 	}
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s port=%s sslmode=%s database=%s", host, user, pass, port, sslmode, dbName)
+	dsn := url.URL{
+		User:     url.UserPassword(user, pass),
+		Scheme:   "postgres",
+		Host:     fmt.Sprintf("%s:%s", host, port),
+		Path:     dbName,
+		RawQuery: (&url.Values{"sslmode": []string{sslmode}}).Encode(),
+	}
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
-		DSN:                  dsn,
+		DSN:                  dsn.String(),
 		PreferSimpleProtocol: true, // disables implicit prepared statement usage. By default pgx automatically uses the extended protocol
 	}), &gorm.Config{})
 
