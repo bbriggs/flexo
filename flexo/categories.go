@@ -46,4 +46,6 @@ func (s *Server) postCategory(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "Couldn't create category")
 		return
 	}
+
+	s.Bytebot.sendMessage(fmt.Sprintf("Created category: %s)", category))
 }

@@ -97,12 +97,25 @@ func init() {
 		fmt.Printf("Couldn't get flag: %s\n", err)
 	}
 
+	rootCmd.PersistentFlags().StringVarP(&BytebotRedis, "bytebotRedis", "", BytebotRedis, "Address of a redis db used by bytebot to transmit events to discord")
+	err = viper.BindPFlag("bytebotRedis", rootCmd.PersistentFlags().Lookup("bytebotRedis"))
+	if err != nil {
+		fmt.Printf("Couldn't get flag: %s\n", err)
+	}
+
+	rootCmd.PersistentFlags().StringVarP(&BytebotPubSub, "bytebotPubSub", "", BytebotPubSub, "Address of the flexo channel used for outbound discord messages")
+	err = viper.BindPFlag("bytebotPubSub", rootCmd.PersistentFlags().Lookup("bytebotPubSub"))
+	if err != nil {
+		fmt.Printf("Couldn't get flag: %s\n", err)
+	}
+
 	viper.SetDefault("dbUser", "root")
 	viper.SetDefault("dbAddr", "127.0.0.1:5432")
 	viper.SetDefault("dbName", "flexo")
 	viper.SetDefault("dbSSL", "disable")
 	viper.SetDefault("secret", "shared_secret")
-
+	viper.SetDefault("bytebotRedis", "redis:6379")
+	viper.SetDefault("bytebotPubSub", "discord-outbound")
 }
 
 // initConfig reads in config file and ENV variables if set.

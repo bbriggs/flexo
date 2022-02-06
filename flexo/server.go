@@ -40,11 +40,15 @@ type Config struct {
 	DBName string
 	DBssl  string
 	Secret string
+
+	BytebotRedis  string
+	BytebotPubSub string
 }
 
 type Server struct {
-	Router *gin.Engine
-	DB     *gorm.DB
+	Router  *gin.Engine
+	DB      *gorm.DB
+	Bytebot *bytebotApp
 }
 
 func Migrate(c Config) error {
@@ -55,9 +59,17 @@ func Migrate(c Config) error {
 
 func Run(c Config) {
 	fmt.Println("Starting Flexo...")
+
+	fmt.Println("Trying to connect to bytebot")
+	bbc, err := connectToBytebot(c.BytebotRedis, c.BytebotPubSub)
+	if err != nil {
+		fmt.Println("Couldn't connect to bytebot")
+	}
+
 	s := Server{
-		Router: gin.New(),
-		DB:     util.DBconnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, c.DBssl),
+		Router:  gin.New(),
+		DB:      util.DBconnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, c.DBssl),
+		Bytebot: bbc,
 	}
 
 	s.Router.Use(
@@ -94,13 +106,12 @@ func Run(c Config) {
 		authorized.GET("/ecom", s.getEcomEvents)
 		authorized.POST("/ecom", s.postEcomEvent)
 
-
 		authorized.GET("/report/teams", s.allTeamsReport)
 		authorized.GET("/report/team/:ID", s.teamReport)
 	}
 
 	s.Router.GET("/healthz", s.healthCheck)
-	err := s.Router.Run()
+	err = s.Router.Run()
 	if err != nil {
 		fmt.Printf("Ran into an error: %s\n", err)
 	}
