@@ -57,7 +57,7 @@ func DBconnect(user, pass, address, dbName, sslmode string) *gorm.DB {
 		panic("DB address isn't of the expected form host:port")
 	}
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s DB.name=%s port=%s, sslmode=%s", host, user, pass, dbName, port, sslmode)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s, sslmode=%s", host, user, pass, dbName, port, sslmode)
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,
