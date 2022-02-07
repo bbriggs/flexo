@@ -121,7 +121,7 @@ func Run(c Config) {
 
 	s.Router.GET("/healthz", s.healthCheck)
 
-	err := s.Router.Run(":", +os.Getenv("PORT"))
+	err := s.Router.Run(":" + port)
 	if err != nil {
 		fmt.Printf("Ran into an error: %s\n", err)
 	}
