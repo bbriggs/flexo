@@ -56,13 +56,14 @@ func Migrate(c Config) error {
 
 func Run(c Config) {
 	fmt.Println("Starting Flexo...")
-	fmt.Printf("Connecting to database %s on host %s...\n", c.DBName, c.DBAddr)
 
 	var db *gorm.DB
 
 	if os.Getenv("DATABASE_URL") != "" {
+		fmt.Println("DATABASE_URL set")
 		db = util.DBconnect(os.Getenv("DATABASE_URL"))
 	} else {
+		fmt.Printf("DATABASE_URL not set. Using other sources for configuration\n. Connecting to database %s on host %s...\n", c.DBName, c.DBAddr)
 		db = util.DBconnect(util.NewConnectionString(c.DBUser, c.DBPass, c.DBAddr, c.DBName, c.DBssl))
 	}
 
