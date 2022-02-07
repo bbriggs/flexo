@@ -36,23 +36,25 @@ import (
 )
 
 func DBinit(user, pass, address, dbName, sslmode string) error {
-	db := DBcreate(user, pass, address, dbName, sslmode)
+	dsn := NewConnectionString(user, pass, address, dbName, sslmode)
+
+	db := DBcreate(dsn, dbName)
 	if db.Error != nil {
 		fmt.Println(db.Error)
 		fmt.Println("Could not create database")
 		os.Exit(3)
 	}
 
-	return DBconnect(user, pass, address, dbName, sslmode).AutoMigrate(&model.Team{}, &model.Category{}, &model.Target{}, &model.Event{}, &model.EcomEvent{})
+	return DBconnect(dsn).AutoMigrate(&model.Team{}, &model.Category{}, &model.Target{}, &model.Event{}, &model.EcomEvent{})
 }
 
-func DBcreate(user, pass, address, dbName, sslmode string) *gorm.DB {
-	db := DBconnect(user, pass, address, "", sslmode)
+func DBcreate(dsn, dbName string) *gorm.DB {
+	db := DBconnect(dsn)
 
 	return db.Raw(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", dbName))
 }
 
-func DBconnect(user, pass, address, dbName, sslmode string) *gorm.DB {
+func NewConnectionString(user, pass, address, dbName, sslMode string) string {
 	host, port, err := extractHostAndPort(address)
 	if err != nil {
 		panic("DB address isn't of the expected form host:port")
@@ -63,11 +65,15 @@ func DBconnect(user, pass, address, dbName, sslmode string) *gorm.DB {
 		Scheme:   "postgres",
 		Host:     fmt.Sprintf("%s:%s", host, port),
 		Path:     dbName,
-		RawQuery: (&url.Values{"sslmode": []string{sslmode}}).Encode(),
+		RawQuery: (&url.Values{"sslmode": []string{sslMode}}).Encode(),
 	}
 
+	return dsn.String()
+}
+func DBconnect(dsn string) *gorm.DB {
+
 	db, err := gorm.Open(postgres.New(postgres.Config{
-		DSN:                  dsn.String(),
+		DSN:                  dsn,
 		PreferSimpleProtocol: true, // disables implicit prepared statement usage. By default pgx automatically uses the extended protocol
 	}), &gorm.Config{})
 

@@ -15,13 +15,15 @@ import (
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 
-	db := util.DBconnect(
+	dsn := util.NewConnectionString(
 		util.LookupEnv("FLEXO_DB_USER", "flexo"),
 		util.LookupEnv("FLEXO_DB_PASS", "flexo"),
 		util.LookupEnv("FLEXO_DB_HOST", "localhost:5432"),
 		util.LookupEnv("FLEXO_DB_NAME", "flexo"),
 		util.LookupEnv("FLEXO_DB_SSLMODE", "disable"),
 	)
+
+	db := util.DBconnect(dsn)
 
 	categoryCount := 15
 	teamCount := 10

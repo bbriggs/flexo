@@ -25,6 +25,7 @@ package flexo
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -56,9 +57,18 @@ func Migrate(c Config) error {
 func Run(c Config) {
 	fmt.Println("Starting Flexo...")
 	fmt.Printf("Connecting to database %s on host %s...\n", c.DBName, c.DBAddr)
+
+	var db *gorm.DB
+
+	if os.Getenv("DATABASE_URL") != "" {
+		db = util.DBconnect(os.Getenv("DATABASE_URL"))
+	} else {
+		db = util.DBconnect(util.NewConnectionString(c.DBUser, c.DBPass, c.DBAddr, c.DBName, c.DBssl))
+	}
+
 	s := Server{
 		Router: gin.New(),
-		DB:     util.DBconnect(c.DBUser, c.DBPass, c.DBAddr, c.DBName, c.DBssl),
+		DB:     db,
 	}
 
 	s.Router.Use(
