@@ -26,7 +26,6 @@ import (
 	"fmt"
 	"net"
 	"net/url"
-	"os"
 	"strings"
 
 	"github.com/SECCDC/flexo/model"
@@ -35,15 +34,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func DBinit(user, pass, address, dbName, sslmode string) error {
-	dsn := NewConnectionString(user, pass, address, dbName, sslmode)
-
-	db := DBcreate(dsn, dbName)
-	if db.Error != nil {
-		fmt.Println(db.Error)
-		fmt.Println("Could not create database")
-		os.Exit(3)
-	}
+func DBinit(dsn string) error {
 
 	return DBconnect(dsn).AutoMigrate(&model.Team{}, &model.Category{}, &model.Target{}, &model.Event{}, &model.EcomEvent{})
 }

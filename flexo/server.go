@@ -50,7 +50,7 @@ type Server struct {
 
 func Migrate(c Config) error {
 	fmt.Println("Running migrations...")
-	err := util.DBinit(c.DBUser, c.DBPass, c.DBAddr, c.DBName, c.DBssl)
+	err := util.DBinit(os.Getenv("DATABASE_URL"))
 	return err
 }
 
