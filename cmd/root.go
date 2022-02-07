@@ -45,8 +45,8 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if viper.GetString("dbPass") == "" {
-			fmt.Println("Password not provided. Exiting!")
+		if viper.GetString("dbPass") == "" && os.Getenv("DATABASE_URL") == "" {
+			fmt.Println("Password not provided and DATABASE_URL environment varialbe not set. Exiting!")
 			os.Exit(2)
 		}
 		c := flexo.Config{
