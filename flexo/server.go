@@ -57,7 +57,16 @@ func Migrate(c Config) error {
 func Run(c Config) {
 	fmt.Println("Starting Flexo...")
 
-	var db *gorm.DB
+	var (
+		db   *gorm.DB
+		port string
+	)
+
+	if os.Getenv("PORT") == "" {
+		port = "8080"
+	} else {
+		port = os.Getenv("PORT")
+	}
 
 	if os.Getenv("DATABASE_URL") != "" {
 		fmt.Println("DATABASE_URL set")
@@ -111,7 +120,8 @@ func Run(c Config) {
 	}
 
 	s.Router.GET("/healthz", s.healthCheck)
-	err := s.Router.Run()
+
+	err := s.Router.Run(":", +os.Getenv("PORT"))
 	if err != nil {
 		fmt.Printf("Ran into an error: %s\n", err)
 	}
