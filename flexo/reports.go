@@ -84,7 +84,11 @@ func (s *Server) allTeamsReport(c *gin.Context) {
 		rep, err := s.generateOneTeamReport(t) // FIXME: Index starts at 0, teams start at 1. Papered this over in faker.
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, "Couldn't fetch report") // TODO: use error wrapping here
-			return
+
+			// We have a problem with the schema where we effectively have 2 primary keys.
+			// This breaks the database when team_id != id, and team 99 isn't helping here.
+			// Disabling the return until we fix the schema.
+			// return
 		}
 		// This isn't visually confusing at all </s>
 		reps = append(reps, rep) // parsec said it's easier for him if we just return an array in json
