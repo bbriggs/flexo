@@ -28,7 +28,7 @@ func main() {
 	categoryCount := 15
 	teamCount := 10
 	targetCount := 10
-	eventCount := 5
+	eventCount := 30000
 	_ = faker.SetRandomMapAndSliceSize(5) // Set team and target slice lens to max of 5
 
 	fakeCategories(db, categoryCount)
