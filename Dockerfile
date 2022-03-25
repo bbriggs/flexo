@@ -12,4 +12,4 @@ COPY --from=builder /opt/flexo /opt/flexo
 
 EXPOSE 8080
 USER flexo
-ENTRYPOINT ["/opt/flexo", "run"]
+ENTRYPOINT ["/opt/flexo"]
