@@ -8,13 +8,7 @@ services:
     ports:
       - "127.0.0.1:8080:8080" # Change port?
     environment:
-      DBADDR: "db:5432"
-      DBUSER: ${FLEXO_DB_USER:-flexo}
-      DBPASS: ${FLEXO_DB_PASS:-flexo}
-      DBNAME: ${FLEXO_DB_NAME:-flexo}
-      DBSSL: ${FLEXO_DB_SSL:-disable}
-      SECRET: ${FLEXO_SECRET:-shared_secret}
-
+      DATABASE_URL: "postgres://flexo:flexo@db:5432/flexo"
       GIN_MODE: ${FLEXO_GIN_MODE:-release}
     depends_on:
       db:
@@ -24,6 +18,8 @@ services:
 
   db:
     image: postgres:13.2
+    cpus: 0.5
+    mem_limit: 512M
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
